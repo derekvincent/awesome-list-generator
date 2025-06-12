@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 click = "*"
+pyyaml = "*"
+bs4 = "*"
+requests = "*"
 
 [dev-packages]
 

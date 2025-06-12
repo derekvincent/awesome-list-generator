@@ -1,0 +1,61 @@
+---
+categories:
+  - name: news
+    label: SAP News
+    description: New site about SAP and related technologies. 
+  - name: blogs
+    label: Blogs
+    description: Blogs about SAP and related technologies. 
+  - name: tools
+    label: Development and SAP Management tools
+    description: Development and SAP Management tools
+  - name: newsletter
+    label: SAP Newsletters
+    description: SAP focused newletters
+
+resource_items:
+ - link_id: https://e3mag.com/en/
+   name: E3 Magazine 
+   category: news 
+ - name: The Register - SAP 
+   link_id: https://www.theregister.com/Tag/SAP/
+   category: news 
+ - name: SAP News Center
+   link_id: https://news.sap.com/
+   category: news
+ - name: SAP Press - Blogs 
+   link_id: https://blog.sap-press.com/
+   category: blogs
+ - name: Its full of Strts
+   link_id: https://www.itsfullofstars.de/category/sap/
+   category: blogs 
+   description: "SAP Consultant, expert for cloud, SAP UX and mobility. Surviving with Java(Script) and HTML5 skills."
+ - name: SAP BTP Terraform Exporter
+   link_id: https://github.com/SAP/terraform-exporter-btp
+   description: "The Terraform Exporter for SAP BTP is a tool that helps export resources from a SAP BTP account. It generates Terraform scripts for the import of resources and enables the import of the Terraform state."
+   category: tools 
+ - name: SAP BTP Terraform Provider
+   link_id: https://github.com/sap/terraform-provider-btp/
+   description: "Terraform provider for SAP BTP"
+   category: tools 
+ - name: Project Piper
+   link_id: https://github.com/SAP/project-piper-action
+   description: "CI/CD tooling for the SAP Ecosystem, integrated with GitHub Actions"
+   category: tools
+ - name: BTP Solution Diagrams
+   link_id: https://github.com/SAP/btp-solution-diagrams/
+   description: "SAP Business Technology Platform solution diagram repository, based on the official SAP BTP Solution diagram guideline. This has been designed in accordance with the SAP Fiori Horizon principles and color palette which provides a holistic and pleasing aesthetic and user experience."
+   category: tools
+ - name: Boring Enterprise Nerds - Newsletter
+   link_id: https://boringenterprisenerds.com/
+   description: "Keep your career fresh with The Boring Enterprise Nerds and stay in the loop about all the cutting-edge fun things in SAP, Cloud, AI, and enterprise software. 6 stories. Bi-weekly. Never dull."
+   category: newsletter
+ - name: InsideSAP 
+   link_id: https://insidesap.com/
+   description: "InsideSAP is an independent, integrated media brand committed to keeping the SAP community up to date with industry news, trends, new solutions, and best practice."
+   category: news
+ - link_id: https://e3mag.com/en/
+   name: This is a duplicate entry - should not render! 
+   category: news 
+ - link_id: https://kemikal.io/
+   name: No Category - should default to other!
