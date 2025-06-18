@@ -4,12 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+this-package = {editable = true, path = "."}
 click = "*"
 pyyaml = "*"
 bs4 = "*"
 requests = "*"
 
+
 [dev-packages]
+this-package = {editable = true, extras = ["dev"], path = "."}
 
 [requires]
 python_version = "3.12"

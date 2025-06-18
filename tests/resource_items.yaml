@@ -1,4 +1,7 @@
 ---
+config: 
+  output_file: TESTME.md
+
 categories:
   - name: news
     label: SAP News
@@ -26,7 +29,7 @@ resource_items:
  - name: SAP Press - Blogs 
    link_id: https://blog.sap-press.com/
    category: blogs
- - name: Its full of Strts
+ - name: Its full of Starts
    link_id: https://www.itsfullofstars.de/category/sap/
    category: blogs 
    description: "SAP Consultant, expert for cloud, SAP UX and mobility. Surviving with Java(Script) and HTML5 skills."

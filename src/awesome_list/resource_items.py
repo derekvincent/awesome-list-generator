@@ -41,24 +41,24 @@ def resource_items_metadata(resource_item: dict) -> dict:
 
     return None
 
-def update_category(resource_item: dict, categories: OrderedDict) -> None:
+def update_category(resource_item: dict, categories: OrderedDict, default_category: str) -> None:
     '''
     Takes the list of resourse items and check if a category has been assigned
     or if the assigned category is in the category config. If not then it assigns
-    the category as 'other'. 
+    the category as `default_category` as set in the config. 
     '''
     # TODO: Change the default from other to set in the config. 
     if "category" not in  resource_item:
         # If Category is not set then set it to the default.
-        resource_item["category"] = "other"
+        resource_item["category"] = default_category
 
-    if not any(category["name"] == resource_item["category"] for category in categories):
+    if resource_item["category"] not in categories:
         log.info(
             "Resource: " + resource_item["name"] +
             " category " + resource_item["category"] +
             " was not found in the category configuration. Setting to default."
             )
-        resource_item["category"] = "other"
+        resource_item["category"] = default_category
 
 def update_resource_item(resource_item: dict) -> None:
     '''
@@ -80,6 +80,13 @@ def update_resource_item(resource_item: dict) -> None:
     if 'article:published_time' in metadata:
         resource_item['published_at'] = metadata['article:published_time']
 
+def categorize_items(items: list, categories: OrderedDict) -> None: 
+    for item in items:
+
+        if "items" not in categories[item["category"]]:
+            categories[item["category"]]["items"] = []
+        categories[item["category"]]["items"].append(item)
+
 def process_resource_items(
         resource_items: list, categories: OrderedDict, config: dict
 ) -> list:
@@ -99,10 +106,8 @@ def process_resource_items(
         if not resource_item.get("description"):
             resource_item["description"] = ""
 
-        update_category(resource_item, categories)
+        update_category(resource_item, categories, config["default_category"])
 
-        #log.info("Resource Items: %s ", resource_item)
         processed_resource_items.append(resource_item)
 
-
-    return process_resource_items
+    return processed_resource_items
