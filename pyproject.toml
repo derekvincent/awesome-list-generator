@@ -1,0 +1,23 @@
+[project]
+name = "awsome-list-generator"
+version = "0.0.1"
+requires-python = "~=3.12"
+
+dependencies = [
+    "click",
+    "pyyaml",
+    "bs4",
+    "requests",
+]
+
+[dependency-groups]
+
+[tool.uv]
+package = false
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
+[tool.uv.sources]
+this-package = { path = "src", editable = true }
