@@ -4,11 +4,7 @@ import yaml
 from typing import Tuple
 from collections import OrderedDict
 
-from awesome_list import utils
-from . import awesome_items
-from . import default_config
-from . import markdown_writer
-#import utils
+from awesome_list import utils, awesome_items, default_config, markdown_writer
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG) 

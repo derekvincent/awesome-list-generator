@@ -1,5 +1,34 @@
+# Awesome List Generator 
 
+## TODO List 
 
+- [X] Categories 
+- [X] Categories: Sub Categories
+- [ ] Categories: Hidden Categories
+- [ ] Labels 
+- [X] Items
+- [ ] Items: types
+- [ ] Items: grouping 
+- [ ] Items: labels 
+- [ ] Items: Description override 
+- [ ] Items: hidden items
+- [X] Config
+- [ ] Config: change file 
+- [ ] Config: history 
+- [ ] Config: category sorts
+- [ ] Resource Types 
+
+## Config  
+### Config Options 
+
+|Property|Description|Default|
+|--------|-----------|-------|
+|output_file| Outfile name |README.md|
+|latest_changes_file| Change file name  |latest-changes.md|
+|awesome_history_folder| Folder to store the history |history|
+|default_category| Name of the default category for item not correctly set | other|
+|category_sort| Sorts the Categories by the following: set, asc, desc|set|
+|list_title| The displayed title of the list |Awsome List!|
 
 ## Categories 
 ### Category Properties 
@@ -9,17 +38,20 @@
 |category| The ID of category, it is inlcuded in the item| N | |
 |name| Category name used for display| N | | 
 |description| A description of the category | Y | blank |
+|parent| Sets the parent category for a subcategory item | Y | blank |
 |hidden| If True the category is not used| Y | False |
 
-## Tags 
-### Tag Properties
+## Labels 
+
+The label will be used for the classification of 
+### Labels Properties
 
 |Property|Description|Optional| Default|
 |--------|-----------|--------|--------|
-|tag| The ID of the tag| N | |
-|name| Name of the tag| Y | tag |
+|label| The ID of the label| N | |
+|name| Name of the label| Y | blank |
 |description| descripton| Y | blank |
-|hidden| hidden | Y | False |
+|icon| URL to an icon | Y | blank |
 
 
 ## Items 
@@ -30,7 +62,7 @@
 | link_id | The url to the item | N | blank|
 | type | The type of resources referenced from type property | N | webpage |
 | category | Category of the resource item defined in the category section of the `resources.yaml` file. | N | other |
-| tags | List of tags that relate to this resources item as definedin in the `resources.yaml` file. | N | blank |
+| labels | List of lables that relate to this resources item as definedin in the `resources.yaml` file. | N | blank |
 | description | A short description of the resource item, if empty a description will attempted to be set by the resource item discovery. | N | blank |
 | published_at | The published date will be auto populated based on the resources item, if it can not be determined it will be left blank. | N | blank | 
 | update_at | The published date will be auto populated based on the resources item, if it can not be determined it will be left blank. | N | blank |
