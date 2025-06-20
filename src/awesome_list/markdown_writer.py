@@ -1,7 +1,7 @@
+import os
 
 from collections import OrderedDict
-from datetime import datetime
-from typing import List, Tuple
+
 
 def generate_item_md(item: dict, config: dict) -> str:
     item_markdown = ""
@@ -78,7 +78,7 @@ def generate_toc_md(categories: OrderedDict, config: dict) -> str:
 def generate_title_md(config: dict) -> str:
     title_markdown = ""
 
-    title_markdown = "#" + config["list_title"]
+    title_markdown = "# " + config["list_title"]
 
     return title_markdown + "\n"
 
@@ -90,6 +90,10 @@ def generate_md(categories: OrderedDict, config: dict) -> str:
     markdown += generate_title_md(config)
     # TODO: Markdown Header 
 
+    if "markdown_header_file" in config:
+        if os.path.exists(config["markdown_header_file"]):
+            with open(config["markdown_header_file"], "r") as f:
+                markdown += (str(f.read()) + "\n")            
     # TOC 
     markdown += generate_toc_md(categories, config)
 
@@ -100,7 +104,10 @@ def generate_md(categories: OrderedDict, config: dict) -> str:
     
     # TODO: Markdown Footer  
 
-    
+    if "markdown_footer_file" in config:
+        if os.path.exists(config["markdown_footer_file"]):
+            with open(config["markdown_footer_file"], "r") as f:
+                markdown += (str(f.read())+ "\n")     
 
     return markdown
 

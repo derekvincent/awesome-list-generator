@@ -2,6 +2,8 @@
 config: 
   output_file: tests/output/TESTME.md
   list_title: Awesome SAP!
+  markdown_header_file: tests/config/header.md
+  markdown_footer_file: tests/config/footer.md
 
 categories:
   - name: news

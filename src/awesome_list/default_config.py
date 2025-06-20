@@ -28,6 +28,12 @@ def initialize_configuration(cfg: dict) -> dict:
 
     if "list_title" not in config:
         config["list_title"] = "Awesome List"
+
+    if "markdown_header_file" not in config:
+        config["markdown_header_file"] = "config/header.md"
+
+    if "markdown_footer_file" not in config:
+        config["markdown_footer_file"] = "config/footer.md"
         
     return config
 
