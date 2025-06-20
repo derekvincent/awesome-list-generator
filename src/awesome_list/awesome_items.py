@@ -1,7 +1,6 @@
 import logging
 import requests
 
-
 from collections import OrderedDict
 # from typing import List, Tuple 
 
@@ -81,11 +80,28 @@ def update_resource_item(resource_item: dict) -> None:
         resource_item['published_at'] = metadata['article:published_time']
 
 def categorize_items(items: list, categories: OrderedDict) -> None: 
+    categorized_items = categories
     for item in items:
 
-        if "items" not in categories[item["category"]]:
-            categories[item["category"]]["items"] = []
-        categories[item["category"]]["items"].append(item)
+        if "items" not in categorized_items[item["category"]]:
+            categorized_items[item["category"]]["items"] = []
+        categorized_items[item["category"]]["items"].append(item)
+
+    return categorized_items
+
+def category_strucutre(awseome_list_obj: OrderedDict) -> None:
+        subcategories = []
+        for category_key in awseome_list_obj:
+            category = awseome_list_obj[category_key]
+            if "parent" in category:
+                if "subcategories" not in awseome_list_obj[category["parent"]]:
+                    awseome_list_obj[category["parent"]]["subcategories"] = []
+                awseome_list_obj[category["parent"]]["subcategories"].append(category)
+                subcategories.append(category_key)
+
+        for category_key in subcategories:    
+            del awseome_list_obj[category_key]
+                                 
 
 def process_resource_items(
         resource_items: list, categories: OrderedDict, config: dict
@@ -111,3 +127,34 @@ def process_resource_items(
         processed_resource_items.append(resource_item)
 
     return processed_resource_items
+
+def process_awesome_items(
+        items: list, categories: OrderedDict, config: dict
+) -> OrderedDict:
+
+    awesome_list_obj = []
+    processed_items = [] 
+    unique_items = set()
+
+    """
+    Process the list items 
+    """
+    for item in items: 
+        if item["link_id"] in unique_items:
+            log.info("List Item " + item["name"] + " : " + item["link_id"] +
+                    " is a duplicate.")
+            continue
+        unique_items.add(item["link_id"])
+
+        #update_resource_item(resource_item)
+        if not item.get("description"):
+            item["description"] = ""
+
+        update_category(item, categories, config["default_category"])
+
+        processed_items.append(item)
+    
+    awesome_list_obj = categorize_items(processed_items, categories)
+    category_strucutre(awseome_list_obj=awesome_list_obj)
+
+    return awesome_list_obj

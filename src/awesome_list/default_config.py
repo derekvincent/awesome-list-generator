@@ -26,7 +26,9 @@ def initialize_configuration(cfg: dict) -> dict:
     if "category_sort" not in config:
         config["category_sort"] = "set"
 
-    
+    if "list_title" not in config:
+        config["list_title"] = "Awesome List"
+        
     return config
 
 def initialize_categories(config: dict, categories: dict) -> OrderedDict:

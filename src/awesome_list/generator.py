@@ -1,31 +1,31 @@
 import logging
 import os 
+import yaml
 from typing import Tuple
 from collections import OrderedDict
 
-import yaml
-
-from . import resource_items
+from awesome_list import utils
+from . import awesome_items
 from . import default_config
 from . import markdown_writer
+#import utils
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG) 
 
-def parse_resource_items_yaml(
-        resource_items_path: str,
-) -> Tuple[dict, list, OrderedDict, list]:
+def yaml_parser(
+        awesome_items_path: str,
+) -> Tuple[dict, OrderedDict, list, list]:
     parsed_yaml = {}
 
-    if not os.path.exists(resource_items_path):
+    if not os.path.exists(awesome_items_path):
         raise Exception(
-            "Resource Items yaml file does not exist: " + os.path.abspath(resource_items_path)
+            "Awesome Items yaml file does not exist: " + os.path.abspath(awesome_items_path)
         )
-    with open(resource_items_path, "r") as stream:
+    with open(awesome_items_path, "r") as stream:
         parsed_yaml = yaml.safe_load(stream)
 
-    #print(parsed_yaml["resource_items"])
-    resource_items_list = parsed_yaml["resource_items"]
+    items = parsed_yaml["items"]
     
     config = default_config.initialize_configuration(
         parsed_yaml["config"] if "config" in parsed_yaml else {}
@@ -36,13 +36,24 @@ def parse_resource_items_yaml(
     
     tags = parsed_yaml["tags"] if "tags" in parsed_yaml else []
 
-    res_items = resource_items.process_resource_items(resource_items_list, categories, config)
-    #log.info("Config: %s", config )
-    #log.info("Categories: %s", categories)
-    resource_items.categorize_items(res_items, categories)
-    #log.info("Categories: %s", categories)
 
-    markdown = markdown_writer.MarkdownWriter()
-    md_out = markdown.write_output(config, res_items, categories, tags)
-    log.info("Mardown Output: \n" + md_out)
-    return config, res_items, categories, tags
+
+    return config, categories, items, tags
+
+def generate_markdown(items_yaml_path: str) -> None:
+
+    try: 
+        config, categories, items, labels = yaml_parser(awesome_items_path=items_yaml_path)
+
+        list_object = awesome_items.process_awesome_items(
+            items=items, 
+            categories=categories, 
+            config=config)
+        
+        markdown = markdown_writer.MarkdownWriter()
+        md_out = markdown.write_output(list_object, config)
+        log.info("Mardown Output: \n" + md_out)
+
+    except Exception as ex:
+        log.error("Failed to generate markdown.", exc_info=ex)
+        utils.exit_process(1)

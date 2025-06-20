@@ -1,6 +1,7 @@
 ---
 config: 
-  output_file: TESTME.md
+  output_file: tests/output/TESTME.md
+  list_title: Awesome SAP!
 
 categories:
   - name: news
@@ -9,14 +10,22 @@ categories:
   - name: blogs
     label: Blogs
     description: Blogs about SAP and related technologies. 
+  - name: development
+    label: Development 
+    description: SAP related development resources and tooling. 
   - name: tools
-    label: Development and SAP Management tools
+    label: Development tools
     description: Development and SAP Management tools
+    parent: development 
+  - name: btp-dev
+    label: BTP Development
+    description: BTP Development resources
+    parent: development    
   - name: newsletter
     label: SAP Newsletters
     description: SAP focused newletters
 
-resource_items:
+items:
  - link_id: https://e3mag.com/en/
    name: E3 Magazine 
    category: news 
@@ -44,11 +53,11 @@ resource_items:
  - name: Project Piper
    link_id: https://github.com/SAP/project-piper-action
    description: "CI/CD tooling for the SAP Ecosystem, integrated with GitHub Actions"
-   category: tools
+   category: btp-dev
  - name: BTP Solution Diagrams
    link_id: https://github.com/SAP/btp-solution-diagrams/
    description: "SAP Business Technology Platform solution diagram repository, based on the official SAP BTP Solution diagram guideline. This has been designed in accordance with the SAP Fiori Horizon principles and color palette which provides a holistic and pleasing aesthetic and user experience."
-   category: tools
+   category: development
  - name: Boring Enterprise Nerds - Newsletter
    link_id: https://boringenterprisenerds.com/
    description: "Keep your career fresh with The Boring Enterprise Nerds and stay in the loop about all the cutting-edge fun things in SAP, Cloud, AI, and enterprise software. 6 stories. Bi-weekly. Never dull."

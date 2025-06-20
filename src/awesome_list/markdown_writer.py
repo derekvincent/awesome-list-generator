@@ -3,7 +3,7 @@ from collections import OrderedDict
 from datetime import datetime
 from typing import List, Tuple
 
-def generate_item_md(item: dict, config: dict, tags: list) -> str:
+def generate_item_md(item: dict, config: dict) -> str:
     item_markdown = ""
 
     item_markdown = '- <b><a href="{homepage}">{name}</a></b> - {description}'.format(
@@ -28,10 +28,32 @@ def generate_category_md(category: dict, config: dict, heading_level: int = 2) -
 
     if "items" in category:
         for item in category["items"]:
-            item_markdown = generate_item_md(item, config, {})
+            item_markdown = generate_item_md(item, config)
             category_markdown += item_markdown + "\n"
 
+    if "subcategories" in category:
+        for subcategory in category["subcategories"]:
+            category_markdown += generate_category_md(subcategory, config, 3)
+
     return category_markdown
+
+def category_toc_md(category: dict, items_len: int, subcategory: bool = False) -> str:
+        
+        category_toc_markdown = ""
+        url = "#" + category["name"]
+        items_count = 0
+        if "items" in category:
+            items_count += len(category["items"])
+        
+        category_toc_markdown += "{bullet} [{title}]({url}) _{items_count} items_\n".format(
+            bullet="    -" if subcategory else "-",
+            title=category["label"], 
+            url=url, 
+            items_count=items_count
+        )
+
+        return category_toc_markdown
+
 
 def generate_toc_md(categories: OrderedDict, config: dict) -> str:
      
@@ -39,23 +61,33 @@ def generate_toc_md(categories: OrderedDict, config: dict) -> str:
 
     for category_key in categories:
         category = categories[category_key]
-        url = "#" + category["name"]
         items_count = 0
         if "items" in category:
             items_count += len(category["items"])
-        
-        toc_markdown += "- [{title}]({url}) _{items_count} items_\n".format(
-            title=category["label"], url=url, items_count=items_count
-        )
+        toc_markdown += category_toc_md(category, items_count)
+
+        if "subcategories" in category:
+            for subcategory in category["subcategories"]:
+                items_count = 0 
+                if "items" in subcategory:
+                    items_count += len(subcategory["items"])
+                toc_markdown += category_toc_md(subcategory, items_count, True)
 
     return toc_markdown + "\n"
 
+def generate_title_md(config: dict) -> str:
+    title_markdown = ""
 
-def generate_md(categories: OrderedDict, config: dict, tags: list) -> str:
+    title_markdown = "#" + config["list_title"]
+
+    return title_markdown + "\n"
+
+
+def generate_md(categories: OrderedDict, config: dict) -> str:
      
     markdown = ""
 
-
+    markdown += generate_title_md(config)
     # TODO: Markdown Header 
 
     # TOC 
@@ -77,13 +109,13 @@ class MarkdownWriter:
     def __init__(self):
             pass
 
-    def write_output(self, config: dict, items: List[dict], categories: OrderedDict, tags: List) -> None:
+    def write_output(self, categorized_items: OrderedDict, config: dict,) -> None:
           
         '''
         Write the 
         '''
 
-        markdown = generate_md(categories, config, tags)
+        markdown = generate_md(categorized_items, config)
         
         with open(config["output_file"], "w") as f:
             f.write(markdown)
