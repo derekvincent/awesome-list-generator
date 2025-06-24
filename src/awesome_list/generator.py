@@ -30,7 +30,7 @@ def yaml_parser(
     categories = default_config.initialize_categories(
         config, parsed_yaml["categories"] if "categories" in parsed_yaml else [])
     
-    tags = parsed_yaml["tags"] if "tags" in parsed_yaml else []
+    tags = parsed_yaml["labels"] if "labels" in parsed_yaml else []
 
 
 
@@ -47,8 +47,8 @@ def generate_markdown(items_yaml_path: str) -> None:
             config=config)
         
         markdown = markdown_writer.MarkdownWriter()
-        md_out = markdown.write_output(list_object, config)
-        log.info("Mardown Output: \n" + md_out)
+        md_out = markdown.write_output(list_object, labels, config)
+        #log.info("Mardown Output: \n" + md_out)
 
     except Exception as ex:
         log.error("Failed to generate markdown.", exc_info=ex)

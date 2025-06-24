@@ -5,6 +5,24 @@ config:
   markdown_header_file: tests/config/header.md
   markdown_footer_file: tests/config/footer.md
 
+labels:
+  - label: "sap" 
+    name: "SAP"
+    image: "https://www.sap.com/favicon.ico"
+    description: "Official SAP resources."
+  - label: "github" 
+    name: "GitHub"
+    image: "https://github.githubassets.com/favicons/favicon.svg"
+    description: "GitHub Project"
+  - label: "community"
+    name: "Community"
+    description: "Community supported events"
+  - label: "error-label"
+    description: "This label should not make it without a name or link."
+  - label: "no-description"
+    name: "No Description"
+    image: "https://github.githubassets.com/favicons/favicon.svg"
+    
 categories:
   - name: news
     label: SAP News
@@ -26,6 +44,9 @@ categories:
   - name: newsletter
     label: SAP Newsletters
     description: SAP focused newletters
+  - name: conferences
+    label: Conferences and Learning 
+    description: Confrence and other learning events.
 
 items:
  - link_id: https://e3mag.com/en/
@@ -37,6 +58,7 @@ items:
  - name: SAP News Center
    link_id: https://news.sap.com/
    category: news
+   labels: ["sap"]
  - name: SAP Press - Blogs 
    link_id: https://blog.sap-press.com/
    category: blogs
@@ -48,18 +70,22 @@ items:
    link_id: https://github.com/SAP/terraform-exporter-btp
    description: "The Terraform Exporter for SAP BTP is a tool that helps export resources from a SAP BTP account. It generates Terraform scripts for the import of resources and enables the import of the Terraform state."
    category: tools 
+   labels: ["sap", "github"]
  - name: SAP BTP Terraform Provider
    link_id: https://github.com/sap/terraform-provider-btp/
    description: "Terraform provider for SAP BTP"
    category: tools 
+   labels: ["sap", "github"]
  - name: Project Piper
    link_id: https://github.com/SAP/project-piper-action
    description: "CI/CD tooling for the SAP Ecosystem, integrated with GitHub Actions"
    category: btp-dev
+   labels: ["sap", "github"]
  - name: BTP Solution Diagrams
    link_id: https://github.com/SAP/btp-solution-diagrams/
    description: "SAP Business Technology Platform solution diagram repository, based on the official SAP BTP Solution diagram guideline. This has been designed in accordance with the SAP Fiori Horizon principles and color palette which provides a holistic and pleasing aesthetic and user experience."
    category: development
+   labels: ["sap", "github"]
  - name: Boring Enterprise Nerds - Newsletter
    link_id: https://boringenterprisenerds.com/
    description: "Keep your career fresh with The Boring Enterprise Nerds and stay in the loop about all the cutting-edge fun things in SAP, Cloud, AI, and enterprise software. 6 stories. Bi-weekly. Never dull."
@@ -68,8 +94,14 @@ items:
    link_id: https://insidesap.com/
    description: "InsideSAP is an independent, integrated media brand committed to keeping the SAP community up to date with industry news, trends, new solutions, and best practice."
    category: news
+ - name: abapconf
+   link_id: https://abapconf.org/
+   description: "A day dedicated to ABAP and Fiori. The conference for the SAP Full Stack Developer."
+   category: conferences 
+   labels: ["community"]
  - link_id: https://e3mag.com/en/
    name: This is a duplicate entry - should not render! 
    category: news 
  - link_id: https://kemikal.io/
    name: No Category - should default to other!
+   labels: ["error-label", "github"]

@@ -49,9 +49,9 @@ The label will be used for the classification of
 |Property|Description|Optional| Default|
 |--------|-----------|--------|--------|
 |label| The ID of the label| N | |
-|name| Name of the label| Y | blank |
-|description| descripton| Y | blank |
 |icon| URL to an icon | Y | blank |
+|description| descripton| Y | blank |
+
 
 
 ## Items 

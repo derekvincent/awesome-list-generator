@@ -44,7 +44,7 @@ def initialize_categories(config: dict, categories: dict) -> OrderedDict:
     
     if categories:
         for category in categories:
-            print(f'Category: {category}')
+            # print(f'Category: {category}')
             return_categories[category["name"]] = dict(category)
 
     if config["default_category"] not in return_categories:

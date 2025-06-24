@@ -46,7 +46,6 @@ def update_category(resource_item: dict, categories: OrderedDict, default_catego
     or if the assigned category is in the category config. If not then it assigns
     the category as `default_category` as set in the config. 
     '''
-    # TODO: Change the default from other to set in the config. 
     if "category" not in  resource_item:
         # If Category is not set then set it to the default.
         resource_item["category"] = default_category
@@ -103,7 +102,7 @@ def category_strucutre(awseome_list_obj: OrderedDict) -> None:
             del awseome_list_obj[category_key]
                                  
 
-def process_resource_items(
+""" def process_resource_items(
         resource_items: list, categories: OrderedDict, config: dict
 ) -> list:
     processed_resource_items = []
@@ -126,7 +125,7 @@ def process_resource_items(
 
         processed_resource_items.append(resource_item)
 
-    return processed_resource_items
+    return processed_resource_items """
 
 def process_awesome_items(
         items: list, categories: OrderedDict, config: dict
