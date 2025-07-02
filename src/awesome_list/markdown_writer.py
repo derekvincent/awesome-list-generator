@@ -1,9 +1,90 @@
 import os
 import logging
+import difflib
+import re 
 
+from datetime import datetime
 from collections import OrderedDict
 
 log = logging.getLogger(__name__)
+
+def select_markdown_section(markdown_text: str) ->str:
+    section_dict = dict()
+
+    matches = re.findall(
+        r'^\[(\w+)\]:\s*#'
+        r'\s*([\s\S]*?)'
+        r'(?=\n\[\w+\]:\s*#|\Z)',
+        markdown_text, flags=re.UNICODE | re.DOTALL | re.MULTILINE
+    )
+
+    for section, subtext in matches:
+        subtext = subtext.rstrip()
+        section_dict[section] = subtext
+
+    return section_dict 
+
+def clean_diffed_markdown(diffed_markdown: list) -> list: 
+    """
+    Used to remove some unsavory markdown formatting items that we do not 
+    want to worry about in the changelog output.
+    """
+    cleaned_diffed_list = []
+    for line in diffed_markdown:
+        if len(line) < 2: 
+            continue
+        elif line[1:] == '---':
+            continue
+        else:
+            cleaned_diffed_list.append(line)
+    return cleaned_diffed_list
+
+def generate_changes_md(last_readme_md: str, current_readme_md: str, build_date: datetime.date) -> str: 
+    change_log_md = ""
+
+    last_readme_sections = select_markdown_section(last_readme_md)
+    current_readme_sections = select_markdown_section(current_readme_md)
+    
+    section_added = False
+    change_log_md += f"# Lastest Changes - {build_date}\n"
+
+    for section_key in last_readme_sections:
+        change_log = None
+        change_log = difflib.unified_diff(
+                last_readme_sections[section_key].splitlines(keepends=False), 
+                current_readme_sections[section_key].splitlines(keepends=False),
+                fromfile='original.md',
+                tofile='newfile.md',
+                lineterm='', n=0)
+
+        lines = list(clean_diffed_markdown(change_log))[2:]
+        if len(lines) > 1:
+            section_added = True
+            change_log_md += f"## Section: {section_key.capitalize()}\n"
+            i = 0 
+            while i < len(lines):
+                line = lines[i]
+                if line.startswith('-'):
+                    if i + 1 < len(lines) and lines[i + 1].startswith('+'):
+                        old_line = line[1:]
+                        new_line = lines[i + 1][1:]
+                        change_log_md += (">### Changed:\n")
+                        change_log_md += (">**Previous**\n")
+                        change_log_md += (f"> {old_line.lstrip()}\n")
+                        change_log_md += (">\n>**New**\n")
+                        change_log_md += (f"> {new_line.lstrip()}\n")
+                        change_log_md += ("\n")
+                        i += 2
+                        continue
+                    elif line.startswith('-') and len(line) > 2:
+                        change_log_md += (f">### Removed:\n> {line[1:].lstrip()}\n\n")
+                elif line.startswith('+') and len(line) > 2:
+                    change_log_md += (f">### Added:\n> {line[1:].lstrip()}\n\n")
+                i += 1            
+    if not section_added:
+        change_log_md += ("**No changes detected in this build.**")
+    return change_log_md
+
 
 def generate_item_md(item: dict, labels: list, config: dict) -> str:
     item_markdown = ""
@@ -118,27 +199,30 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
      
     markdown = ""
 
+    markdown += "[header]: #\n"
     markdown += generate_title_md(config=config)
     # TODO: Markdown Header 
-
     if "markdown_header_file" in config:
         if os.path.exists(config["markdown_header_file"]):
             with open(config["markdown_header_file"], "r") as f:
                 markdown += (str(f.read()) + "\n")            
     # TOC 
+    markdown += "[categories]: #\n"
     markdown += generate_toc_md(categories=categories, config=config)
 
     # Legend
+    markdown += "[legend]: #\n"
     if len(labels) > 0:
         markdown += generate_legend_md(labels=labels, config=config)
 
     # Body 
+    markdown += "[contents]: #\n"
     for category_key in categories:
         category = categories[category_key]
         markdown += generate_category_md(category=category, labels=labels, config=config)
     
     # TODO: Markdown Footer  
-
+    markdown += "[footer]: #\n"
     if "markdown_footer_file" in config:
         if os.path.exists(config["markdown_footer_file"]):
             with open(config["markdown_footer_file"], "r") as f:
@@ -156,12 +240,39 @@ class MarkdownWriter:
         '''
         Write the 
         '''
-        #for label in labels:
-        #    log.info(f'Label: {label.get("label")}')
-        #label_sap = [label for label in labels if label.get("label") == "sap"][0]
-        #log.info(f'SAP Icon: {label_sap.get("image")}')
+
+        '''
+        Read the last generated file 
+        '''
+        last_readme_md = ""
+        with open(config["output_file"], "r") as f: 
+            last_readme_md = f.read()
+
         markdown = generate_md(categories=categorized_items, labels=labels, config=config)
+        current_build_time = datetime.today().strftime("%Y-%m-%d")
+        changes_md = generate_changes_md(last_readme_md, markdown, current_build_time)
         
+        if config["awesome_history_folder"]:
+            changes_md_file_name = current_build_time + "_changes.md"
+            # write to history folder
+
+            os.makedirs(os.path.join(os.path.dirname(config["output_file"]), 
+                                     config["awesome_history_folder"]), 
+                        exist_ok=True)
+            with open(
+                os.path.join(os.path.dirname(config["output_file"]), 
+                             config["awesome_history_folder"], 
+                             changes_md_file_name), "w"
+            ) as f:
+                f.write(changes_md)
+
+        with open(os.path.join(
+                os.path.dirname(config["output_file"]), 
+                config["latest_changes_file"]
+            ),"w",
+        ) as f:
+            f.write(changes_md)
+
         with open(config["output_file"], "w") as f:
             f.write(markdown)
         return markdown

@@ -22,6 +22,9 @@ labels:
   - label: "no-description"
     name: "No Description"
     image: "https://github.githubassets.com/favicons/favicon.svg"
+  - label: "oss"
+    name: "Open Source Project"
+    image: "https://i0.wp.com/opensource.org/wp-content/uploads/2023/01/cropped-cropped-OSI_Horizontal_Logo_0-e1674081292667.png?fit=32%2C32&amp;ssl=1"
     
 categories:
   - name: news
@@ -76,6 +79,11 @@ items:
    description: "Terraform provider for SAP BTP"
    category: tools 
    labels: ["sap", "github"]
+ - name: abapGit
+   link_id: https://abapgit.org/
+   description: "abapGit is an open source git client for ABAP, maintained and built by the community."
+   category: tools
+   labels: ["community", "oss"]
  - name: Project Piper
    link_id: https://github.com/SAP/project-piper-action
    description: "CI/CD tooling for the SAP Ecosystem, integrated with GitHub Actions"
@@ -85,7 +93,7 @@ items:
    link_id: https://github.com/SAP/btp-solution-diagrams/
    description: "SAP Business Technology Platform solution diagram repository, based on the official SAP BTP Solution diagram guideline. This has been designed in accordance with the SAP Fiori Horizon principles and color palette which provides a holistic and pleasing aesthetic and user experience."
    category: development
-   labels: ["sap", "github"]
+   labels: ["sap", "github", "oss"]
  - name: Boring Enterprise Nerds - Newsletter
    link_id: https://boringenterprisenerds.com/
    description: "Keep your career fresh with The Boring Enterprise Nerds and stay in the loop about all the cutting-edge fun things in SAP, Cloud, AI, and enterprise software. 6 stories. Bi-weekly. Never dull."
