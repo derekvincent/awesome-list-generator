@@ -113,6 +113,8 @@ def generate_item_md(item: dict, labels: list, config: dict) -> str:
 def generate_category_md(category: dict, labels: list, config: dict, heading_level: int = 2) -> str:
     category_markdown = ""
 
+    category_markdown += "## Contents\n ---"
+
     category_markdown += "#" * heading_level + " " + category["label"] + "\n\n"
 
     back_to_top_anchor = "#contents"

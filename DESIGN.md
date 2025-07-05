@@ -5,18 +5,21 @@
 - [X] Categories 
 - [X] Categories: Sub Categories
 - [ ] Categories: Hidden Categories
-- [ ] Labels 
+- [X] Labels 
 - [X] Items
 - [ ] Items: types
 - [ ] Items: grouping 
-- [ ] Items: labels 
+- [X] Items: labels 
 - [ ] Items: Description override 
 - [ ] Items: hidden items
 - [X] Config
-- [ ] Config: change file 
-- [ ] Config: history 
+- [X] Config: change file 
+- [X] Config: history 
 - [ ] Config: category sorts
 - [ ] Resource Types 
+- [ ] Change Log
+- [X] Change Log: latest-changes file as markdown diff
+- [X] Change Log: latest-changes in the history folder 
 
 ## Config  
 ### Config Options 
