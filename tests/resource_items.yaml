@@ -113,3 +113,6 @@ items:
  - link_id: https://kemikal.io/
    name: No Category - should default to other!
    labels: ["error-label", "github"]
+ - link_id: https://kemikal.io/filenotfound
+   name: Should Return 400 error and not be shown
+   labels: ["error-label", "github"]

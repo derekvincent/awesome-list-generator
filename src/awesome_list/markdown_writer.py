@@ -113,7 +113,7 @@ def generate_item_md(item: dict, labels: list, config: dict) -> str:
 def generate_category_md(category: dict, labels: list, config: dict, heading_level: int = 2) -> str:
     category_markdown = ""
 
-    category_markdown += "## Contents\n ---"
+    category_markdown += "\n"
 
     category_markdown += "#" * heading_level + " " + category["label"] + "\n\n"
 
@@ -201,7 +201,7 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
      
     markdown = ""
 
-    markdown += "[header]: #\n"
+    markdown += "\n[header]: #\n"
     markdown += generate_title_md(config=config)
     # TODO: Markdown Header 
     if "markdown_header_file" in config:
@@ -209,22 +209,22 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
             with open(config["markdown_header_file"], "r") as f:
                 markdown += (str(f.read()) + "\n")            
     # TOC 
-    markdown += "[categories]: #\n"
+    markdown += "\n[categories]: #\n"
     markdown += generate_toc_md(categories=categories, config=config)
 
     # Legend
-    markdown += "[legend]: #\n"
+    markdown += "\n[legend]: #\n"
     if len(labels) > 0:
         markdown += generate_legend_md(labels=labels, config=config)
 
     # Body 
-    markdown += "[contents]: #\n"
+    markdown += "\n[contents]: #\n"
     for category_key in categories:
         category = categories[category_key]
         markdown += generate_category_md(category=category, labels=labels, config=config)
     
     # TODO: Markdown Footer  
-    markdown += "[footer]: #\n"
+    markdown += "\n[footer]: #\n"
     if "markdown_footer_file" in config:
         if os.path.exists(config["markdown_footer_file"]):
             with open(config["markdown_footer_file"], "r") as f:

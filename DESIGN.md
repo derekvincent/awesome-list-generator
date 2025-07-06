@@ -2,24 +2,48 @@
 
 ## TODO List 
 
-- [X] Categories 
-- [X] Categories: Sub Categories
-- [ ] Categories: Hidden Categories
-- [X] Labels 
+- [ ] Testing
+  - [ ] Testing: Scenarios 
+- [ ] Categories 
+  - [X] Categories: Sub Categories
+  - [ ] Categories: Hidden Categories
+- [ ] Labels
+  - [X] Labels: assigned to items 
+  - [X] Labels: rendering in markdown 
 - [X] Items
-- [ ] Items: types
-- [ ] Items: grouping 
-- [X] Items: labels 
-- [ ] Items: Description override 
-- [ ] Items: hidden items
+  - [ ] Items: types
+  - [ ] Items: grouping 
+  - [X] Items: labels 
+  - [ ] Items: Description override 
+  - [X] Items: hidden items
 - [X] Config
-- [X] Config: change file 
-- [X] Config: history 
-- [ ] Config: category sorts
-- [ ] Resource Types 
+  - [X] Config: change file 
+  - [X] Config: history 
+  - [ ] Config: category sorts
+- [ ] Resource Types
+  - [X] Resource Types: generic web-page support
+  - [X] Resource Types: generic web-page: check if URL is still valid if not hide item
+  - [ ] Resource Types: generic web-page: extened metadata 
+  - [ ] Resource Types: Github
+  - [ ] Resource Types: Github: check if project is valid
+  - [ ] Resource Types: Github: extended project metadata
 - [ ] Change Log
-- [X] Change Log: latest-changes file as markdown diff
-- [X] Change Log: latest-changes in the history folder 
+  - [X] Change Log: latest-changes file as markdown diff
+  - [X] Change Log: latest-changes in the history folder 
+- [ ] GitHub Template
+  - [ ] GitHub Template: Created 
+  - [ ] GitHub Template: Issue templates 
+  - [ ] GitHub Template: PR templates 
+  - [ ] GitHub Template: Template filed (footer, header, base conifg)
+  - [ ] GitHub Template: Workflow Action --> Setup 
+  - [ ] GitHub Template: Workflow Action --> Scheduled List Update 
+  - [ ] GitHub Template: Documentation 
+- [ ] Documentation
+  - [ ] Documentation: Readme 
+  - [ ] Documentation: Getting started 
+  - [ ] Documentation: Configuration/Usage 
+  - [ ] Documentation: Development 
+  - [ ] Documentation: Support 
 
 ## Config  
 ### Config Options 
