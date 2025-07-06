@@ -44,6 +44,10 @@
   - [ ] Documentation: Configuration/Usage 
   - [ ] Documentation: Development 
   - [ ] Documentation: Support 
+- [ ] Build and Publish 
+  - [ ] Build and Publish: Workout build process 
+  - [ ] Build and Publish: Publish a package for the generator to PyPi 
+  - [ ] Build and Publish: Setup Generator repo for support etc.
 
 ## Config  
 ### Config Options 
