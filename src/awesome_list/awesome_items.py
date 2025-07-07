@@ -70,7 +70,10 @@ def update_item(resource_item: dict) -> None:
     '''
     metadata = get_items_metadata(resource_item)
 
-    #print(metadata)
+    print(metadata)
+    if 'og:title' in metadata:
+        resource_item['name'] = metadata['og:title']
+        
     if 'description' in metadata:
         resource_item['description'] = metadata['description']
     elif 'og:description' in metadata:
@@ -78,9 +81,13 @@ def update_item(resource_item: dict) -> None:
     
     if 'og:update_time' in metadata:
         resource_item['update_at'] = metadata['og:update_time']
+    else:
+        resource_item['update_at'] = ''
     
     if 'article:published_time' in metadata:
         resource_item['published_at'] = metadata['article:published_time']
+    else:
+        resource_item['published_at'] = ''
 
 def categorize_items(items: list, categories: OrderedDict) -> None: 
     categorized_items = categories

@@ -1,0 +1,67 @@
+---
+config: 
+  output_file: tests/rally/output/README.md
+  list_title: Awesome Rally!
+  markdown_header_file: tests/config/header.md
+  markdown_footer_file: tests/config/footer.md
+
+labels:
+  - label: "cars" 
+    name: "CARS"
+    image: "https://carsrally.ca/wp-content/themes/crcrally/favicon-32x32.png"
+    description: "Canadian Associtation of Rally Sport"
+     
+categories:
+  - name: sanctioning-bodies
+    label: Sanctioning Bodies
+    description: Official Rally Sanctioning Bodies
+  - name: sanctioning-bodies-canada
+    label: Canadian Sanctioning Bodies
+    description: Canadian Rally Sanctioning Bodies  
+    parent: sanctioning-bodies 
+  - name: events-canadian-national 
+    label: Canadain Rally Championship
+    description: Canadain Rally Championship Events
+  - name: events-canadian-regional 
+    label: Canadain Regional Rally
+    description: Canadain Regional Championship
+  - name: events-ontario-regional 
+    label: Ontario Regional Rallies
+    description: Regional Rallies 
+    parent: events-canadian-regional
+  - name: events-quebec-regional 
+    label: Quebec Regional Rallies
+    description: Regional Rallies 
+    parent: events-canadian-regional
+
+
+items:
+ - link_id: https://carsrally.ca/cars-home/
+   name: Canadian Association of Rallysport 
+   category: sanctioning-bodies-canada 
+   labels: ['cars']
+ - link_id: https://rallysport.on.ca/
+   name: Rallysport Ontario
+   category: sanctioning-bodies-canada 
+   labels: ['cars']
+ - name: crc 
+   link_id: https://carsrally.ca
+   category: events-canadian-national
+   labels: ['cars']
+ - link_id: https://www.tallpinesrally.com/
+   name: Rally of the Tall Pines
+   category: events-canadian-national
+   labels: ['cars']
+ - name: OPRC 
+   link_id: https://www.oprc.online/
+   description: Ontario Performance Rally Championship
+   category: events-ontario-regional
+ - link_id: https://www.kwrc.on.ca/kw_events/gcfr-voyageurs-oprc/
+   name: Rally of the Voyageurs
+   category: events-ontario-regional
+ - link_id: https://www.mlrc.ca/blackbear/
+   name: Black Bear Rally
+   category: events-ontario-regional   
+
+   
+ 

@@ -20,6 +20,9 @@ build-backend = "setuptools.build_meta"
 [project.scripts]
 awesome-list-generator = "awesome_list.cli:cli"
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [dependency-groups]
 
 [tool.uv]

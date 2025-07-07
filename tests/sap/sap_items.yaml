@@ -1,6 +1,6 @@
 ---
 config: 
-  output_file: tests/output/TESTME.md
+  output_file: tests/sap/output/README.md
   list_title: Awesome SAP!
   markdown_header_file: tests/config/header.md
   markdown_footer_file: tests/config/footer.md

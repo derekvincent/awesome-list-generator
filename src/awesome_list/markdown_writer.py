@@ -247,9 +247,12 @@ class MarkdownWriter:
         Read the last generated file 
         '''
         last_readme_md = ""
-        with open(config["output_file"], "r") as f: 
-            last_readme_md = f.read()
-
+        try: 
+            with open(config["output_file"], "r") as f: 
+                last_readme_md = f.read()
+        except FileNotFoundError as err:
+            log.info(f"File Not Found: {config['output_file']}")
+            
         markdown = generate_md(categories=categorized_items, labels=labels, config=config)
         current_build_time = datetime.today().strftime("%Y-%m-%d")
         changes_md = generate_changes_md(last_readme_md, markdown, current_build_time)
