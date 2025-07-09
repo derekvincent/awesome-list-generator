@@ -1,6 +1,6 @@
 import logging
 import requests
-
+import pprint
 from collections import OrderedDict
 # from typing import List, Tuple 
 
@@ -108,12 +108,13 @@ def category_strucutre(awesome_list_obj: OrderedDict) -> None:
             category = awesome_list_obj[category_key]
             if "parent" in category:
                 if "subcategories" not in awesome_list_obj[category["parent"]]:
-                    awesome_list_obj[category["parent"]]["subcategories"] = []
-                awesome_list_obj[category["parent"]]["subcategories"].append(category)
+                    awesome_list_obj[category["parent"]]["subcategories"] = {}
+                awesome_list_obj[category["parent"]]["subcategories"][category_key] = category
                 subcategories.append(category_key)
 
         for category_key in subcategories:    
             del awesome_list_obj[category_key]
+        pprint.pprint(awesome_list_obj)
                                  
 
 def process_awesome_items(

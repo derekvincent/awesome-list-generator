@@ -130,8 +130,8 @@ def generate_category_md(category: dict, labels: list, config: dict, heading_lev
             category_markdown += item_markdown + "\n"
 
     if "subcategories" in category:
-        for subcategory in category["subcategories"]:
-            category_markdown += generate_category_md(subcategory, labels, config, 3)
+        for subcategory_key in category["subcategories"]:
+            category_markdown += generate_category_md(category["subcategories"][subcategory_key], labels, config, heading_level + 1)
 
     return category_markdown
 
@@ -151,7 +151,7 @@ def generate_legend_md(labels: list, config: dict) -> str:
     return legend_md
 
 
-def category_toc_md(category: dict, items_len: int, subcategory: bool = False) -> str:
+def category_toc_md(category: dict, items_len: int, level: int = 1) -> str:
         
         category_toc_markdown = ""
         url = "#" + category["name"]
@@ -159,34 +159,34 @@ def category_toc_md(category: dict, items_len: int, subcategory: bool = False) -
         if "items" in category:
             items_count += len(category["items"])
         
-        category_toc_markdown += "{bullet} [{title}]({url}) _{items_count} items_\n".format(
-            bullet="    -" if subcategory else "-",
-            title=category["label"], 
-            url=url, 
-            items_count=items_count
-        )
-
+            category_toc_markdown += "{bullet} [{title}]({url}) _{items_count} items_\n".format(
+                bullet=" " * (level * 2) + "-" if level > 1 else "-",
+                title=category["label"], 
+                url=url, 
+                items_count=items_count
+            )
+        else:
+            category_toc_markdown += "{bullet} [{title}]({url}) \n".format(
+                bullet=" " * (level * 2) + "-" if level > 1 else "-",
+                title=category["label"], 
+                url=url, 
+            )
         return category_toc_markdown
 
 
-def generate_toc_md(categories: OrderedDict, config: dict) -> str:
+def generate_toc_md(categories: OrderedDict, config: dict, level: int = 1) -> str:
      
     toc_markdown = ""
-
     for category_key in categories:
         category = categories[category_key]
         items_count = 0
         if "items" in category:
             items_count += len(category["items"])
-        toc_markdown += category_toc_md(category, items_count)
+        toc_markdown += category_toc_md(category, items_count, level)
 
         if "subcategories" in category:
-            for subcategory in category["subcategories"]:
-                items_count = 0 
-                if "items" in subcategory:
-                    items_count += len(subcategory["items"])
-                toc_markdown += category_toc_md(subcategory, items_count, True)
-
+            toc_markdown += generate_toc_md(category["subcategories"], config, level + 1)
+            
     return toc_markdown + "\n"
 
 def generate_title_md(config: dict) -> str:
@@ -252,18 +252,30 @@ class MarkdownWriter:
                 last_readme_md = f.read()
         except FileNotFoundError as err:
             log.info(f"File Not Found: {config['output_file']}")
-            
+
+        # Generate the markdown content
         markdown = generate_md(categories=categorized_items, labels=labels, config=config)
+        
         current_build_time = datetime.today().strftime("%Y-%m-%d")
+        # Generate the changes markdown
         changes_md = generate_changes_md(last_readme_md, markdown, current_build_time)
         
         if config["awesome_history_folder"]:
             changes_md_file_name = current_build_time + "_changes.md"
             # write to history folder
 
+            ## Create the history folder if it does not exist
             os.makedirs(os.path.join(os.path.dirname(config["output_file"]), 
                                      config["awesome_history_folder"]), 
                         exist_ok=True)
+            
+            # If the file already exists, append the current time to the file name
+            if os.path.exists(os.path.join(os.path.dirname(config["output_file"]), 
+                             config["awesome_history_folder"], 
+                             changes_md_file_name)):
+                changes_md_file_name = f'{current_build_time}-{datetime.now().strftime("%H-%M")}_changes.md'
+
+            # Write the changes markdown to the history folder
             with open(
                 os.path.join(os.path.dirname(config["output_file"]), 
                              config["awesome_history_folder"], 
@@ -271,6 +283,7 @@ class MarkdownWriter:
             ) as f:
                 f.write(changes_md)
 
+        # Write the latest changes to the latest_changes.md file
         with open(os.path.join(
                 os.path.dirname(config["output_file"]), 
                 config["latest_changes_file"]
@@ -278,6 +291,7 @@ class MarkdownWriter:
         ) as f:
             f.write(changes_md)
 
+        # Write the final markdown to the output file
         with open(config["output_file"], "w") as f:
             f.write(markdown)
         return markdown

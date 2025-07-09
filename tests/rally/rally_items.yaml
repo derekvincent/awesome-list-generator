@@ -12,6 +12,9 @@ labels:
     description: "Canadian Associtation of Rally Sport"
      
 categories:
+  - name: Canadian-Rally
+    label: Canadian Rally
+    description: Canadian Rally Resources
   - name: sanctioning-bodies
     label: Sanctioning Bodies
     description: Official Rally Sanctioning Bodies
@@ -19,12 +22,17 @@ categories:
     label: Canadian Sanctioning Bodies
     description: Canadian Rally Sanctioning Bodies  
     parent: sanctioning-bodies 
+  - name: sanctioning-bodies-us
+    label: United States Sanctioning Bodies
+    description: United States Rally Sanctioning Bodies  
+    parent: sanctioning-bodies     
   - name: events-canadian-national 
     label: Canadain Rally Championship
-    description: Canadain Rally Championship Events
+    description: Canadain National Rally Championship Events
   - name: events-canadian-regional 
     label: Canadain Regional Rally
     description: Canadain Regional Championship
+    parent: Canadian-Rally
   - name: events-ontario-regional 
     label: Ontario Regional Rallies
     description: Regional Rallies 
@@ -36,6 +44,12 @@ categories:
 
 
 items:
+ - link_id: https://www.americanrallyassociation.org/
+   name: American Rally Association 
+   category: sanctioning-bodies-us 
+ - link_id: https://nasarallysport.com
+   name: NASA Rally Sport 
+   category: sanctioning-bodies-us 
  - link_id: https://carsrally.ca/cars-home/
    name: Canadian Association of Rallysport 
    category: sanctioning-bodies-canada 
@@ -44,6 +58,22 @@ items:
    name: Rallysport Ontario
    category: sanctioning-bodies-canada 
    labels: ['cars']
+ - link_id: https://rsq.qc.ca/
+   name: Rallye Sport Quebec
+   category: sanctioning-bodies-canada 
+   labels: ['cars']  
+ - link_id: https://www.armsinc.ca/rally/
+   name: Atlantic Region Motor Sports
+   category: sanctioning-bodies-canada 
+   labels: ['cars']   
+ - link_id: https://www.rallywest.com/
+   name: Rally Western Canada
+   category: sanctioning-bodies-canada 
+   labels: ['cars'] 
+ - link_id: http://www.rallybc.com/
+   name: Rally Pacific Motorsports
+   category: sanctioning-bodies-canada 
+   labels: ['cars']     
  - name: crc 
    link_id: https://carsrally.ca
    category: events-canadian-national
@@ -52,6 +82,14 @@ items:
    name: Rally of the Tall Pines
    category: events-canadian-national
    labels: ['cars']
+ - name: ECRC 
+   link_id: http://www.ecrc-crec.ca/
+   description: Eastern Canadian Rally Championship
+   category: events-canadian-regional
+ - name: WCRC 
+   link_id: https://www.wcrcrally.com/
+   description: Western Canadian Rally Championship
+   category: events-canadian-regional   
  - name: OPRC 
    link_id: https://www.oprc.online/
    description: Ontario Performance Rally Championship
@@ -62,6 +100,7 @@ items:
  - link_id: https://www.mlrc.ca/blackbear/
    name: Black Bear Rally
    category: events-ontario-regional   
+
 
    
  
