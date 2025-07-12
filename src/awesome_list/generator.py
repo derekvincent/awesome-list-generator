@@ -1,13 +1,17 @@
 import logging
 import os 
 import yaml
+
+
 from typing import Tuple
 from collections import OrderedDict
 
-from awesome_list import utils, awesome_items, default_config, markdown_writer
+from awesome_list import utils, awesome_items, default_config, markdown_writer, logger
 
+
+#log = logger.log
 log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG) 
+#logging.basicConfig(level=logging.DEBUG) 
 
 def yaml_parser(
         awesome_items_path: str,
@@ -40,6 +44,8 @@ def generate_markdown(items_yaml_path: str) -> None:
 
     try: 
         config, categories, items, labels = yaml_parser(awesome_items_path=items_yaml_path)
+
+        logger.initialize_logging(file_path=config["log_folder"], disable_log=config["disable_logging"])
 
         list_object = awesome_items.process_awesome_items(
             items=items, 

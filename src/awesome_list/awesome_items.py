@@ -6,9 +6,12 @@ from collections import OrderedDict
 
 from bs4 import BeautifulSoup
 
-from . import utils
+from awesome_list import utils, logger
 
 log = logging.getLogger(__name__)
+#log = logger.log
+
+#log.setLevel(logging.DEBUG)
 
 def get_items_metadata(item: dict) -> dict:
 
@@ -70,7 +73,7 @@ def update_item(resource_item: dict) -> None:
     '''
     metadata = get_items_metadata(resource_item)
 
-    print(metadata)
+    log.info(f'Item Url: {resource_item["link_id"]} \n Metadata: {pprint.pformat(metadata)}')
     if 'og:title' in metadata:
         resource_item['name'] = metadata['og:title']
         
@@ -98,7 +101,7 @@ def categorize_items(items: list, categories: OrderedDict) -> None:
         if not item["hidden"]:
             categorized_items[item["category"]]["items"].append(item)
         else:
-            log.info(f"{item['name']} was set to hidden and will not be included.")
+            log.application(f"{item['name']} was set to hidden and will not be included.")
 
     return categorized_items
 
@@ -114,7 +117,7 @@ def category_strucutre(awesome_list_obj: OrderedDict) -> None:
 
         for category_key in subcategories:    
             del awesome_list_obj[category_key]
-        pprint.pprint(awesome_list_obj)
+        #pprint.pprint(awesome_list_obj)
                                  
 
 def process_awesome_items(

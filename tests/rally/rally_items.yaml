@@ -4,6 +4,7 @@ config:
   list_title: Awesome Rally!
   markdown_header_file: tests/config/header.md
   markdown_footer_file: tests/config/footer.md
+  log_folder: tests/rally/output/logs 
 
 labels:
   - label: "cars" 
@@ -29,6 +30,14 @@ categories:
   - name: events-canadian-national 
     label: Canadain Rally Championship
     description: Canadain National Rally Championship Events
+  - name: canadian-rally-clubs
+    label: Canadian Rally Clubs
+    description: Canadian Rally Clubs and Organizations
+    parent: Canadian-Rally
+  - name: ontario-rally-clubs
+    label: Ontario Rally Clubs
+    description: Ontario Rally Clubs and Organizations
+    parent: canadian-rally-clubs
   - name: events-canadian-regional 
     label: Canadain Regional Rally
     description: Canadain Regional Championship
@@ -41,6 +50,8 @@ categories:
     label: Quebec Regional Rallies
     description: Regional Rallies 
     parent: events-canadian-regional
+
+
 
 
 items:
@@ -100,7 +111,29 @@ items:
  - link_id: https://www.mlrc.ca/blackbear/
    name: Black Bear Rally
    category: events-ontario-regional   
+## Ontario Rally Clubs
+ - link_id: https://www.mlrc.ca/
+   name: MLRC
+   category: ontario-rally-clubs
+ - link_id: https://www.kwrc.on.ca/
+   name: Kitchener Waterloo Rally Club
+   category: ontario-rally-clubs
+ - link_id: https://ottawasportscarclub.ca/
+   name: Ottawa Sports Car Club
+   category: ontario-rally-clubs
+ - link_id: https://www.mco.org/wordpress/
+   name: Motorsport Club of Ottawa
+   category: ontario-rally-clubs
+ - link_id: https://www.pmsc.on.ca/
+   name: Peterborough Motor Sports Club
+   category: ontario-rally-clubs
+ - link_id: https://www.torontoautosportclub.ca/
+   name: Toronto Autosport Club
+   category: ontario-rally-clubs
+ - link_id: https://spda-online.ca/
+   name: Southern Ontario Performance Drivers Association
+   category: ontario-rally-clubs
+ - link_id: https://www.stlac.ca/
+   name: St. Lawrence Automobile Club
+   category: ontario-rally-clubs
 
-
-   
- 

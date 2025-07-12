@@ -16,7 +16,13 @@ def initialize_configuration(cfg: dict) -> dict:
 
     if "default_category" not in config:
         config["default_category"] = "other"
+    
+    if "disable_logging" not in config:
+        config["disable_logging"] = False
 
+    if "log_folder" not in config:
+        config["log_folder"] = "logs"
+        
     '''
     Defines category_sort method used. 
         set = uses the order set in the config. 

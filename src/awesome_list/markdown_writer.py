@@ -222,6 +222,7 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
     for category_key in categories:
         category = categories[category_key]
         markdown += generate_category_md(category=category, labels=labels, config=config)
+        markdown += "\n---\n"
     
     # TODO: Markdown Footer  
     markdown += "\n[footer]: #\n"
@@ -284,6 +285,7 @@ class MarkdownWriter:
                 f.write(changes_md)
 
         # Write the latest changes to the latest_changes.md file
+        log.info(f"Writing latest changes to {os.path.dirname(config['output_file'])}/{config['latest_changes_file']}")
         with open(os.path.join(
                 os.path.dirname(config["output_file"]), 
                 config["latest_changes_file"]
@@ -292,6 +294,7 @@ class MarkdownWriter:
             f.write(changes_md)
 
         # Write the final markdown to the output file
+        log.info(f"Writing Awsesome list markdown to {config['output_file']}")
         with open(config["output_file"], "w") as f:
             f.write(markdown)
         return markdown
