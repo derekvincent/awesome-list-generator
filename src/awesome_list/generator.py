@@ -44,7 +44,7 @@ def generate_markdown(items_yaml_path: str) -> None:
     try: 
         config, categories, items, labels = yaml_parser(awesome_items_path=items_yaml_path)
 
-        logger.initialize_logging(file_path=config["log_folder"], disable_log=config["disable_logging"])
+        logger.initialize_logging(file_path=config["log_folder"], disable_log=config["disable_logging"], debug=config["debug"])
 
         list_object = awesome_items.process_awesome_items(
             items=items, 

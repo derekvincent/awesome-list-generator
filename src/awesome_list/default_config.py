@@ -22,6 +22,9 @@ def initialize_configuration(cfg: dict) -> dict:
 
     if "log_folder" not in config:
         config["log_folder"] = "logs"
+    
+    if "debug" not in config:
+        config["debug"] = False
         
     '''
     Defines category_sort method used. 

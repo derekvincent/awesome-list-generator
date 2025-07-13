@@ -19,7 +19,7 @@ def add_applicaiton_level():
     logging.Logger.application = application
 
 
-def initialize_logging(file_path: str, disable_log: bool = False) -> None:
+def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = False) -> None:
 
     """Add the custom application logging level."""
     add_applicaiton_level()
@@ -44,7 +44,6 @@ def initialize_logging(file_path: str, disable_log: bool = False) -> None:
         "loggers": {
             "": {
                 "handlers": ["console"],
-                "level": logging.DEBUG,
                 "propagate": True,
             },
         },
@@ -52,6 +51,15 @@ def initialize_logging(file_path: str, disable_log: bool = False) -> None:
 
     #log = logging.getLogger("awsome_list")
 
+    if debug:
+        """Set the logging level to DEBUG if debug is True."""
+        log_config["handlers"]["console"]["level"] = logging.DEBUG
+        log_config["loggers"][""]["level"] = logging.DEBUG
+    else:
+        """Set the logging level to INFO if debug is False."""
+        log_config["handlers"]["console"]["level"] = logging.INFO
+        log_config["loggers"][""]["level"] = logging.INFO
+        
     if not disable_log:
 
         """Initialize logging configuration."""

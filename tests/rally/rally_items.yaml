@@ -55,86 +55,103 @@ categories:
 
 
 items:
- - link_id: https://www.americanrallyassociation.org/
-   name: American Rally Association 
-   category: sanctioning-bodies-us 
- - link_id: https://nasarallysport.com
-   name: NASA Rally Sport 
-   category: sanctioning-bodies-us 
- - link_id: https://carsrally.ca/cars-home/
-   name: Canadian Association of Rallysport 
-   category: sanctioning-bodies-canada 
-   labels: ['cars']
- - link_id: https://rallysport.on.ca/
-   name: Rallysport Ontario
-   category: sanctioning-bodies-canada 
-   labels: ['cars']
- - link_id: https://rsq.qc.ca/
-   name: Rallye Sport Quebec
-   category: sanctioning-bodies-canada 
-   labels: ['cars']  
- - link_id: https://www.armsinc.ca/rally/
-   name: Atlantic Region Motor Sports
-   category: sanctioning-bodies-canada 
-   labels: ['cars']   
- - link_id: https://www.rallywest.com/
-   name: Rally Western Canada
-   category: sanctioning-bodies-canada 
-   labels: ['cars'] 
- - link_id: http://www.rallybc.com/
-   name: Rally Pacific Motorsports
-   category: sanctioning-bodies-canada 
-   labels: ['cars']     
- - name: crc 
-   link_id: https://carsrally.ca
-   category: events-canadian-national
-   labels: ['cars']
- - link_id: https://www.tallpinesrally.com/
-   name: Rally of the Tall Pines
-   category: events-canadian-national
-   labels: ['cars']
- - name: ECRC 
-   link_id: http://www.ecrc-crec.ca/
-   description: Eastern Canadian Rally Championship
-   category: events-canadian-regional
- - name: WCRC 
-   link_id: https://www.wcrcrally.com/
-   description: Western Canadian Rally Championship
-   category: events-canadian-regional   
- - name: OPRC 
-   link_id: https://www.oprc.online/
-   description: Ontario Performance Rally Championship
-   category: events-ontario-regional
- - link_id: https://www.kwrc.on.ca/kw_events/gcfr-voyageurs-oprc/
-   name: Rally of the Voyageurs
-   category: events-ontario-regional
- - link_id: https://www.mlrc.ca/blackbear/
-   name: Black Bear Rally
-   category: events-ontario-regional   
-## Ontario Rally Clubs
- - link_id: https://www.mlrc.ca/
-   name: MLRC
-   category: ontario-rally-clubs
- - link_id: https://www.kwrc.on.ca/
-   name: Kitchener Waterloo Rally Club
-   category: ontario-rally-clubs
- - link_id: https://ottawasportscarclub.ca/
-   name: Ottawa Sports Car Club
-   category: ontario-rally-clubs
- - link_id: https://www.mco.org/wordpress/
-   name: Motorsport Club of Ottawa
-   category: ontario-rally-clubs
-   always_include: true
- - link_id: https://www.pmsc.on.ca/
-   name: Peterborough Motor Sports Club
-   category: ontario-rally-clubs
- - link_id: https://www.torontoautosportclub.ca/
-   name: Toronto Autosport Club
-   category: ontario-rally-clubs
- - link_id: https://spda-online.ca/
-   name: Southern Ontario Performance Drivers Association
-   category: ontario-rally-clubs
- - link_id: https://www.stlac.ca/
-   name: St. Lawrence Automobile Club
-   category: ontario-rally-clubs
-
+  - link_id: https://www.americanrallyassociation.org/
+    name: American Rally Association 
+    category: sanctioning-bodies-us 
+  - link_id: https://nasarallysport.com
+    name: NASA Rally Sport 
+    category: sanctioning-bodies-us 
+  - link_id: https://carsrally.ca/cars-home/
+    name: Canadian Association of Rallysport 
+    category: sanctioning-bodies-canada 
+    labels: ['cars']
+  - link_id: https://rallysport.on.ca/
+    name: Rallysport Ontario
+    category: sanctioning-bodies-canada 
+    labels: ['cars']
+  - link_id: https://rsq.qc.ca/
+    name: Rallye Sport Quebec
+    category: sanctioning-bodies-canada 
+    labels: ['cars']  
+  - link_id: https://www.armsinc.ca/rally/
+    name: Atlantic Region Motor Sports
+    category: sanctioning-bodies-canada 
+    labels: ['cars']   
+  - link_id: https://www.rallywest.com/
+    name: Rally Western Canada
+    category: sanctioning-bodies-canada 
+    labels: ['cars'] 
+  - link_id: http://www.rallybc.com/
+    name: Rally Pacific Motorsports
+    category: sanctioning-bodies-canada 
+    labels: ['cars']     
+  - name: crc 
+    link_id: https://carsrally.ca
+    category: events-canadian-national
+    labels: ['cars']
+  - link_id: https://www.tallpinesrally.com/
+    name: Rally of the Tall Pines
+    category: events-canadian-national
+    labels: ['cars']
+  - name: ECRC 
+    link_id: http://www.ecrc-crec.ca/
+    description: Eastern Canadian Rally Championship
+    category: events-canadian-regional
+  - name: WCRC 
+    link_id: https://www.wcrcrally.com/
+    description: Western Canadian Rally Championship
+    category: events-canadian-regional   
+  - name: OPRC 
+    link_id: https://www.oprc.online/
+    description: Ontario Performance Rally Championship
+    category: events-ontario-regional
+  - link_id: https://www.kwrc.on.ca/kw_events/gcfr-voyageurs-oprc/
+    name: Rally of the Voyageurs
+    category: events-ontario-regional
+  - link_id: https://www.mlrc.ca/blackbear/
+    name: Black Bear Rally
+    category: events-ontario-regional   
+  ## Ontario Rally Clubs
+  - link_id: https://www.mlrc.ca/
+    name: MLRC
+    category: ontario-rally-clubs
+  - link_id: https://www.kwrc.on.ca/
+    name: Kitchener Waterloo Rally Club
+    category: ontario-rally-clubs
+  - link_id: https://ottawasportscarclub.ca/
+    name: Ottawa Sports Car Club
+    category: ontario-rally-clubs
+  - link_id: https://www.mco.org/wordpress/
+    name: Motorsport Club of Ottawa
+    category: ontario-rally-clubs
+    always_include: true
+  - link_id: https://www.pmsc.on.ca/
+    name: Peterborough Motor Sports Club
+    category: ontario-rally-clubs
+  - link_id: https://www.torontoautosportclub.ca/
+    name: Toronto Autosport Club
+    category: ontario-rally-clubs
+  - link_id: https://spda-online.ca/
+    name: Southern Ontario Performance Drivers Association
+    category: ontario-rally-clubs
+  - link_id: https://www.stlac.ca/
+    name: St. Lawrence Automobile Club
+    category: ontario-rally-clubs
+  - link_id: http://www.casll.qc.ca/
+    name: Club Auto Sport La Licorne
+    category: quebec-rally-clubs
+  - link_id: http://www.rallyebdc.com/
+    name: Club Rallye Auto de la Baie-des-Chaleurs (CRAB)
+    category: quebec-rally-clubs
+  - link_id: http://www.rallyeperceneige.com/
+    name: Club Rallye Perce-Neige Maniwaki
+    category: quebec-rally-clubs
+  - link_id: https://www.rallyecharlevoix.com/
+    name: Club de Rallye Charlevoix
+    category: quebec-rally-clubs
+  - link_id: https://www.facebook.com/clubrallyerimouski
+    name: Club Rallye Rimouski
+    category: quebec-rally-clubs
+  - link_id: https://www.facebook.com/CADORallye/
+    name: Club Auto de Rallye de l'Outaouais (CARO)
+    category: quebec-rally-clubs
