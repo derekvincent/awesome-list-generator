@@ -124,6 +124,7 @@ items:
  - link_id: https://www.mco.org/wordpress/
    name: Motorsport Club of Ottawa
    category: ontario-rally-clubs
+   always_include: true
  - link_id: https://www.pmsc.on.ca/
    name: Peterborough Motor Sports Club
    category: ontario-rally-clubs

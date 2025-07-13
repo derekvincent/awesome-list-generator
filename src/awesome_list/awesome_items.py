@@ -9,9 +9,6 @@ from bs4 import BeautifulSoup
 from awesome_list import utils, logger
 
 log = logging.getLogger(__name__)
-#log = logger.log
-
-#log.setLevel(logging.DEBUG)
 
 def get_items_metadata(item: dict) -> dict:
 
@@ -43,7 +40,7 @@ def get_items_metadata(item: dict) -> dict:
                 log.info("Not a Valid URL.")
 
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching {item["link_id"]}: {e}")
+            log.error(f"Error fetching {item["link_id"]}: {e}")
             return None
 
     return None
@@ -73,7 +70,7 @@ def update_item(resource_item: dict) -> None:
     '''
     metadata = get_items_metadata(resource_item)
 
-    log.info(f'Item Url: {resource_item["link_id"]} \n Metadata: {pprint.pformat(metadata)}')
+    log.debug(f'Item Url: {resource_item["link_id"]} \n Metadata: {pprint.pformat(metadata)}')
     if 'og:title' in metadata:
         resource_item['name'] = metadata['og:title']
         
@@ -98,7 +95,7 @@ def categorize_items(items: list, categories: OrderedDict) -> None:
 
         if "items" not in categorized_items[item["category"]]:
             categorized_items[item["category"]]["items"] = []
-        if not item["hidden"]:
+        if not item["hidden"] or item.get("always_include"):
             categorized_items[item["category"]]["items"].append(item)
         else:
             log.application(f"{item['name']} was set to hidden and will not be included.")

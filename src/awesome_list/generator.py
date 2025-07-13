@@ -9,9 +9,8 @@ from collections import OrderedDict
 from awesome_list import utils, awesome_items, default_config, markdown_writer, logger
 
 
-#log = logger.log
 log = logging.getLogger(__name__)
-#logging.basicConfig(level=logging.DEBUG) 
+
 
 def yaml_parser(
         awesome_items_path: str,
@@ -53,9 +52,10 @@ def generate_markdown(items_yaml_path: str) -> None:
             config=config)
         
         markdown = markdown_writer.MarkdownWriter()
-        md_out = markdown.write_output(list_object, labels, config)
+        markdown.write_output(list_object, labels, config)
         #log.info("Mardown Output: \n" + md_out)
 
     except Exception as ex:
+        log.application("Failed to generate markdown.", exc_info=ex)
         log.error("Failed to generate markdown.", exc_info=ex)
         utils.exit_process(1)
