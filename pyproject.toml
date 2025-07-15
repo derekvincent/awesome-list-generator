@@ -1,5 +1,5 @@
 [project]
-name = "awesome-list-generator"
+name = "awesomelist-generator"
 version = "0.1.0"
 description = "Create markdown based Awesome Lists from yaml files."
 readme = "README.md"
