@@ -34,7 +34,7 @@ jobs:
     - name: Install the project
       run: uv sync --locked --all-extras --dev   
     - name: Build the distribution 📦
-      run: uv build --format wheel,sdist --output dist/
+      run: uv build --no-sources
            
     - name: Store the distribution packages
       uses: actions/upload-artifact@v4
