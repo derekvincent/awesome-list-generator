@@ -5,6 +5,11 @@ description = "Create markdown based Awesome Lists from yaml files."
 readme = "README.md"
 # Repository = "https://github.com/derekvincent/awesome-list-generator"
 requires-python = ">=3.12"
+authors = [
+    { name = "Derek Vincent", email = "derek@kemiakl.io" },
+]
+license = { text = "MIT" }
+keywords = ["awesome-list", "generator"]
 
 dependencies = [
     "click",
