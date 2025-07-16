@@ -3,9 +3,9 @@ revision = 2
 requires-python = ">=3.12"
 
 [[package]]
-name = "awesomelist-generator"
+name = "awesome-lists-generator"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "bs4" },
     { name = "click" },
