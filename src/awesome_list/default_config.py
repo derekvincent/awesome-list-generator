@@ -26,6 +26,8 @@ def initialize_configuration(cfg: dict) -> dict:
     if "debug" not in config:
         config["debug"] = False
         
+    if "up_arrow_image" not in config:
+        config["up_arrow_image"] = "https://raw.githubusercontent.com/derekvincent/awesome-list-generator/main/assets/UpperCaret-32.png"
     '''
     Defines category_sort method used. 
         set = uses the order set in the config. 

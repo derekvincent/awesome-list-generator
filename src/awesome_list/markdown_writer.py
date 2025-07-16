@@ -119,7 +119,7 @@ def generate_category_md(category: dict, labels: list, config: dict, heading_lev
 
     back_to_top_anchor = "#contents"
 
-    category_markdown += f'<a href="{back_to_top_anchor}"><img align="right" width="16" height="16" src="./assets/UpperCaret-32.png" alt="Back to top"></a>\n\n'
+    category_markdown += f'<a href="{back_to_top_anchor}"><img align="right" width="16" height="16" src="{config["up_arrow_image"]}" alt="Back to top"></a>\n\n'
 
     if "description" in category:
         category_markdown += "_" + category["description"].strip() + "_\n\n"
