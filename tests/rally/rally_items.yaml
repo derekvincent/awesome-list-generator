@@ -2,6 +2,7 @@
 config: 
   output_file: tests/rally/output/README.md
   list_title: Awesome Rally!
+  list_description: A curated list of Canadian Rally Resources, Clubs, Teams, and Events
   markdown_header_file: tests/config/header.md
   markdown_footer_file: tests/config/footer.md
   log_folder: tests/rally/output/logs 
@@ -13,7 +14,7 @@ labels:
     description: "Canadian Associtation of Rally Sport"
      
 categories:
-  - name: Canadian-Rally
+  - name: canadian-rally
     label: Canadian Rally
     description: Canadian Rally Resources
   - name: sanctioning-bodies
@@ -22,7 +23,7 @@ categories:
   - name: sanctioning-bodies-canada
     label: Canadian Sanctioning Bodies
     description: Canadian Rally Sanctioning Bodies  
-    parent: sanctioning-bodies 
+    parent: canadian-rally 
   - name: sanctioning-bodies-us
     label: United States Sanctioning Bodies
     description: United States Rally Sanctioning Bodies  
@@ -30,18 +31,35 @@ categories:
   - name: events-canadian-national 
     label: Canadain Rally Championship
     description: Canadain National Rally Championship Events
+    parent: canadian-rally
   - name: canadian-rally-clubs
     label: Canadian Rally Clubs
     description: Canadian Rally Clubs and Organizations
-    parent: Canadian-Rally
+    parent: canadian-rally
   - name: ontario-rally-clubs
     label: Ontario Rally Clubs
     description: Ontario Rally Clubs and Organizations
     parent: canadian-rally-clubs
+  - name: quebec-rally-clubs
+    label: Quebec Rally Clubs
+    description: Quebec Rally Clubs and Organizations
+    parent: canadian-rally-clubs  
+  - name: eastern-rally-clubs
+    label: Atlantic Rally Clubs
+    description: Atlantic Rally Clubs and Organizations
+    parent: canadian-rally-clubs  
+  - name: western-rally-clubs
+    label: Western Rally Clubs
+    description: Western Rally Clubs and Organizations    
+    parent: canadian-rally-clubs 
+  - name: pacific-rally-clubs
+    label: Pacific Coast Rally Clubs
+    description: PAcific Coast Rally Clubs and Organizations    
+    parent: canadian-rally-clubs      
   - name: events-canadian-regional 
     label: Canadain Regional Rally
     description: Canadain Regional Championship
-    parent: Canadian-Rally
+    parent: canadian-rally
   - name: events-ontario-regional 
     label: Ontario Regional Rallies
     description: Regional Rallies 
@@ -50,7 +68,24 @@ categories:
     label: Quebec Regional Rallies
     description: Regional Rallies 
     parent: events-canadian-regional
-
+  - name: events-eastern-regional 
+    label: Atlantic Regional Rallies
+    description: Regional Rallies 
+    parent: events-canadian-regional 
+  - name: rally-teams
+    label: Rally Teams
+    description: Rally Teams and Drivers
+  - name: canadian-rally-teams
+    label: Canadian Rally Teams
+    description: Canadian Rally Teams and Drivers
+    parent: rally-teams
+  - name: rally-resources
+    label: Rally Resources
+    description: Rally Resources and Information
+  - name: rally-training
+    label: Rally Training
+    description: Rally Training and Schools
+    parent: rally-resources
 
 
 
@@ -110,10 +145,25 @@ items:
     category: events-ontario-regional
   - link_id: https://www.mlrc.ca/blackbear/
     name: Black Bear Rally
-    category: events-ontario-regional   
-  ## Ontario Rally Clubs
+    category: events-ontario-regional 
+## Quebec Regional Rallies 
+  - link_id: https://www.rallyecharlevoix.com/
+    name: Rallye de Charlevoix
+    category: events-quebec-regional 
+  - link_id: https://rallyedesanair.ca/
+    name: Rallye de Sanair
+    category: events-quebec-regional
+## Easrtern Canada Regional Rallies
+  - link_id: https://www.bluenoseautosport.ca/ledwidge-lookoff-rally/
+    name: Ledgwidge Lookoff Rally
+    category: events-eastern-regional
+  - link_id: https://www.bluenoseautosport.ca/trout-lake-rally/
+    name: Trout Lake Rally
+    category: events-eastern-regional
+## Ontario Rally Clubs
   - link_id: https://www.mlrc.ca/
-    name: MLRC
+    name: Maple Leaf Rally Club 
+    description: The Maple Leaf Rally Club is one of the largest, oldest, and most active rally clubs in Canada.
     category: ontario-rally-clubs
   - link_id: https://www.kwrc.on.ca/
     name: Kitchener Waterloo Rally Club
@@ -134,9 +184,10 @@ items:
   - link_id: https://spda-online.ca/
     name: Southern Ontario Performance Drivers Association
     category: ontario-rally-clubs
-  - link_id: https://www.stlac.ca/
+  - link_id: https://www.stlac.ca
     name: St. Lawrence Automobile Club
     category: ontario-rally-clubs
+## Quebec Rally Clubs    
   - link_id: http://www.casll.qc.ca/
     name: Club Auto Sport La Licorne
     category: quebec-rally-clubs
@@ -146,7 +197,7 @@ items:
   - link_id: http://www.rallyeperceneige.com/
     name: Club Rallye Perce-Neige Maniwaki
     category: quebec-rally-clubs
-  - link_id: https://www.rallyecharlevoix.com/
+  - link_id: https://www.rallyecharlevoix.com/Le-club-CRDC
     name: Club de Rallye Charlevoix
     category: quebec-rally-clubs
   - link_id: https://www.facebook.com/clubrallyerimouski
@@ -155,3 +206,39 @@ items:
   - link_id: https://www.facebook.com/CADORallye/
     name: Club Auto de Rallye de l'Outaouais (CARO)
     category: quebec-rally-clubs
+## Eastern Canada Rally Clubs 
+  - link_id: https://www.bluenoseautosport.ca/
+    name: Bluenose Motorsport Club
+    category: eastern-rally-clubs
+  - link_id: https://mmsc.ca/
+    name: Moncton Motorsport Club
+    category: eastern-rally-clubs
+## West and Pacific Coast Canada Rally clubs
+  - link_id: https://www.cscc.ab.ca
+    name: Calgary Sports Car Club
+    category: western-rally-clubs
+  - link_id: https://www.edmontonrallyclub.ca/
+    name: Edmonton Rally Club
+    category: western-rally-clubs
+  - link_id: https://www.rallybc.ca/wcra/wcra.html
+    name: West Coast Rally Association
+    category: pacific-rally-clubs
+
+## Rally Teams
+  - link_id: https://www.rallysputnik.com/
+    name: Rally Sputnik
+    category: canadian-rally-teams
+
+## Resourced and Schools 
+  - link_id: https://racelab.co/
+    name: Race Lab - Ontario Rally School
+    category: rally-training
+  - link_id: https://teamoneil.com/
+    name: Team O'Neil Rally School
+    category: rally-training
+  - link_id: https://drive.dirtfish.com/drive/drive-now/
+    name: DirtFish Rally School
+    category: rally-training
+  - link_id: https://gorally.com/
+    name: The Firm - Rally School
+    category: rally-training

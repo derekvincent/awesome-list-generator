@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 from bs4 import BeautifulSoup
 
-from awesome_list import utils, logger
+from awesome_list import utils
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +15,22 @@ def get_items_metadata(item: dict) -> dict:
     if utils.is_url_valid(item["link_id"]):
         try:
             request_headers = {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+                'accept-language': 'en-US,en;q=0.5',
+                'accept-encoding': 'gzip, deflate, br',
+                'cache-control': 'no-cache',
+                'pragma': 'no-cache',
+                'dnt': '1',
+                'upgrade-insecure-requests': '1',
+                'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="137", "Chromium";v="137"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'none',
+                'sec-fetch-user': '?1',
+                'sec-gpc': '1'
             }
 
             response = requests.get(item["link_id"], headers=request_headers)
@@ -37,12 +52,14 @@ def get_items_metadata(item: dict) -> dict:
                 return metadata
 
             else:
-                log.info("Not a Valid URL.")
+                log.error("Issue with fetching metadata for " + item["link_id"] +
+                          " Status Code: " + str(response.status_code))
 
         except requests.exceptions.RequestException as e:
             log.error(f"Error fetching {item["link_id"]}: {e}")
             return None
-
+    else:
+        log.application("Invalid URL: " + item["link_id"])
     return None
 
 def update_category(item: dict, categories: OrderedDict, default_category: str) -> None:
@@ -56,7 +73,7 @@ def update_category(item: dict, categories: OrderedDict, default_category: str) 
         item["category"] = default_category
 
     if item["category"] not in categories:
-        log.info(
+        log.application(
             "Resource: " + item["name"] +
             " category " + item["category"] +
             " was not found in the category configuration. Setting to default."
@@ -71,12 +88,12 @@ def update_item(resource_item: dict) -> None:
     metadata = get_items_metadata(resource_item)
 
     log.debug(f'Item Url: {resource_item["link_id"]} \n Metadata: {pprint.pformat(metadata)}')
-    if 'og:title' in metadata:
+    if metadata.get('og:title'):
         resource_item['name'] = metadata['og:title']
-        
-    if 'description' in metadata:
+
+    if metadata.get('description'):   
         resource_item['description'] = metadata['description']
-    elif 'og:description' in metadata:
+    elif metadata.get('og:description'):
         resource_item['description'] = metadata['og:description']
     
     if 'og:update_time' in metadata:
@@ -89,6 +106,8 @@ def update_item(resource_item: dict) -> None:
     else:
         resource_item['published_at'] = ''
 
+    log.info(f"Updated item {resource_item['name']} with metadata.")
+
 def categorize_items(items: list, categories: OrderedDict) -> None: 
     categorized_items = categories
     for item in items:
@@ -97,6 +116,7 @@ def categorize_items(items: list, categories: OrderedDict) -> None:
             categorized_items[item["category"]]["items"] = []
         if not item["hidden"] or item.get("always_include"):
             categorized_items[item["category"]]["items"].append(item)
+            log.info(f"{item['name']} was added to category {item['category']}.")
         else:
             log.application(f"{item['name']} was set to hidden and will not be included.")
 
@@ -106,15 +126,17 @@ def category_strucutre(awesome_list_obj: OrderedDict) -> None:
         subcategories = []
         for category_key in awesome_list_obj:
             category = awesome_list_obj[category_key]
-            if "parent" in category:
-                if "subcategories" not in awesome_list_obj[category["parent"]]:
-                    awesome_list_obj[category["parent"]]["subcategories"] = {}
-                awesome_list_obj[category["parent"]]["subcategories"][category_key] = category
-                subcategories.append(category_key)
-
+            try:
+                if "parent" in category:
+                    if "subcategories" not in awesome_list_obj[category["parent"]]:
+                        awesome_list_obj[category["parent"]]["subcategories"] = {}
+                    awesome_list_obj[category["parent"]]["subcategories"][category_key] = category
+                    subcategories.append(category_key)
+            except KeyError as e:
+                log.application(f"KeyError: {e} in category {category_key}. "
+                                "This may be due to a missing parent category.")
         for category_key in subcategories:    
             del awesome_list_obj[category_key]
-        #pprint.pprint(awesome_list_obj)
                                  
 
 def process_awesome_items(
@@ -130,7 +152,7 @@ def process_awesome_items(
     """
     for item in items: 
         if item["link_id"] in unique_items:
-            log.info("List Item " + item["name"] + " : " + item["link_id"] +
+            log.application("List Item " + item["name"] + " : " + item["link_id"] +
                     " is a duplicate.")
             continue
         unique_items.add(item["link_id"])
@@ -140,10 +162,9 @@ def process_awesome_items(
 
         try:
             update_item(item)
-            #item["hidden"] = False
         except Exception as err:
             item["hidden"] = True
-            log.info(f"Item: {item["link_id"]} return {err}")
+            #log.error(f"Item: {item["link_id"]} return {err}")
 
         if not item.get("description"):
             item["description"] = ""
