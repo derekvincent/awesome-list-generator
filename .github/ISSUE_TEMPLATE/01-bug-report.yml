@@ -3,7 +3,7 @@ description: Report a bug or issue with the Awesome List Generator.
 labels: bug
 title: '[Bug]: '
 
-ody:
+body:
   - type: markdown 
     attributes:
       value: |
