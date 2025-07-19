@@ -28,6 +28,6 @@ body:
     attributes:
       label: Would you be interested on work on this feature
       options:
-        - Yes
-        - No
+        - "Yes"
+        - "No"
       default: 1

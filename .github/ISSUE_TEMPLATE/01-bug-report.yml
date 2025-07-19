@@ -1,7 +1,7 @@
 name: 🐛 Bug Report
 description: Report a bug or issue with the Awesome List Generator.
 labels: bug
-name: Add New Itemtitle: '[Bug]: '
+title: '[Bug]: '
 
 ody:
   - type: markdown 
