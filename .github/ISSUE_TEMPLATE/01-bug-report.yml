@@ -1,0 +1,45 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with the Awesome List Generator.
+labels: bug
+name: Add New Itemtitle: '[Bug]: '
+
+ody:
+  - type: markdown 
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug. 
+        Before opening a new issue,  please check to make sure this bug has not allready been reported. 
+        If it has, please add any additional information you have to the existing issue.
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: |
+        Please provide a clear and concise description of the bug you encountered.
+        Include any relevant details such as steps to reproduce, expected behavior, and actual behavior.
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please provide a step-by-step guide on how to reproduce the bug.
+        Include any specific configurations or settings that may be relevant.
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: |
+        Please describe what you expected to happen when you followed the steps to reproduce the bug.
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: |
+        Please describe what actually happened when you followed the steps to reproduce the bug.
+  - type: textarea
+    attributes:
+      label: Additional Context
+      description: |
+        Please provide any additional context or information that may be helpful in diagnosing the issue.
+  - type: textarea
+    attributes:
+      label: Screenshots or Logs
+      description: |
+        If applicable, please provide screenshots or logs that may help in understanding the issue.
+        You can upload files directly to this issue.

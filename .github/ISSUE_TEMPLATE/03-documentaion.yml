@@ -1,0 +1,21 @@
+name: 📚 Documentaion
+description: Do you have a suggestion to improve the documentation?
+labels:
+  - documentation
+title: '[Documentation]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in improving the documentation!
+        Before submitting a documentation request, please check to see if it has already been suggested.
+  - type: textarea
+    attributes:
+      label: Documentation Suggestion
+      description: |
+        Please provide a clear and concise description of the documentation you would like to see added or improved.
+  - type: input
+    attributes:
+      label: Link to Documentation
+      description: |
+        If applicable, please provide a link to the documentation you are referring to or would like to see improved.

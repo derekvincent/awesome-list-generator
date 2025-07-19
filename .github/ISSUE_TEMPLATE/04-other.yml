@@ -1,0 +1,16 @@
+name: 💬 Other Issue or Question
+description: Do you have a question or issue that doesn't fit into the other categories?
+labels:
+  - question
+title: '[Other]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in the Awesome List Generator!
+        Before submitting an issue, please check to see if it has already been reported or addressed.
+  - type: textarea
+    attributes:
+      label: Quesiton or Issue Description
+      description: |
+        Please provide a clear and concise description of the issue you are experiencing or the question you have.
