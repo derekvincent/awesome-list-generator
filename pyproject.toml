@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=80", "wheel>=0.45.1"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
@@ -29,6 +29,9 @@ awesome-lists-generator = "awesome_list.cli:cli"
 test = ["pytest"]
 
 [dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
 
 [tool.uv]
 package = true
