@@ -1,6 +1,6 @@
 [project]
 name = "awesome-lists-generator"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Create markdown based Awesome Lists from yaml files."
 readme = "README.md"
 # Repository = "https://github.com/derekvincent/awesome-list-generator"
@@ -14,9 +14,9 @@ license-files = ["LICENSE",]
 keywords = ["awesome-list", "generator"]
 
 dependencies = [
-    "click",
-    "pyyaml",
-    "bs4",
+    "click >=8.2.0",
+    "pyyaml >=6.0",
+    "bs4 >=4.12.2",
     "requests",
 ]
 
