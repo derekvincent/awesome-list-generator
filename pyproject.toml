@@ -16,7 +16,7 @@ keywords = ["awesome-list", "generator"]
 dependencies = [
     "click >=8.2.0",
     "pyyaml >=6.0",
-    "bs4 >=4.12.2",
+    "beautifulsoup4 >=4.12.2",
     "requests",
 ]
 
