@@ -46,7 +46,7 @@ def generate_changes_md(last_readme_md: str, current_readme_md: str, build_date:
     current_readme_sections = select_markdown_section(current_readme_md)
     
     section_added = False
-    change_log_md += f"# Lastest Changes - {build_date}\n"
+    change_log_md += f"# Latest Changes - {build_date}\n"
 
     for section_key in last_readme_sections:
         change_log = None
@@ -249,8 +249,8 @@ def generate_default_md(config: dict) -> str:
     """
     markdown = ""
     markdown += generate_title_md(config=config)
-    markdown += "\n**Welcome to your inital Awesome List!**\n"
-    markdown += "\nAdd categories and items to your new `awesome-list.yaml` file to get started.\n"
+    markdown += "\n**Welcome to your fresh Awesome List!**\n"
+    markdown += "\nNow add categories and items to your new `awesome-list.yaml` file to get started.\n"
 
     return markdown
 
@@ -265,16 +265,6 @@ class MarkdownWriter:
         Write the 
         '''
 
-
-        if not categorized_items:
-            log.application("Generating Default README.")
-            markdown = generate_default_md(config=config)
-            # Write the final markdown to the output file
-            log.info(f"Writing Awsesome list markdown to {config['output_file']}")
-            with open(config["output_file"], "w") as f:
-                f.write(markdown)
-            return markdown
-
         '''
         Read the last generated file 
         '''
@@ -286,8 +276,12 @@ class MarkdownWriter:
             log.info(f"File Not Found: {config['output_file']}")
 
         # Generate the markdown content
-        markdown = generate_md(categories=categorized_items, labels=labels, config=config)
-        
+        if categorized_items:
+            markdown = generate_md(categories=categorized_items, labels=labels, config=config)
+        else: 
+            log.application("Generating Default README.")
+            markdown = generate_default_md(config=config)
+
         current_build_time = datetime.today().strftime("%Y-%m-%d")
         # Generate the changes markdown
         changes_md = generate_changes_md(last_readme_md, markdown, current_build_time)
