@@ -18,10 +18,11 @@ def cli() -> None:
 
 @click.command("generate")
 @click.argument("path", type=click.Path(exists=True))
-def generate(path: str) -> None:
+@click.option("--debug", is_flag=True)
+def generate(path: str, debug: bool) -> None:
     """Generates an awsome-list markdown page from a yaml file."""
     from awesome_list import generator
 
-    generator.generate_markdown(path)
+    generator.generate_markdown(path, debug)
 
 cli.add_command(generate)

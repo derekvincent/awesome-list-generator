@@ -39,21 +39,27 @@ def yaml_parser(
 
     return config, categories, items, tags
 
-def generate_markdown(items_yaml_path: str) -> None:
+def generate_markdown(items_yaml_path: str, debug: bool) -> None:
 
     try: 
         config, categories, items, labels = yaml_parser(awesome_items_path=items_yaml_path)
+        if debug:
+            config["debug"] = True
 
         logger.initialize_logging(file_path=config["log_folder"], disable_log=config["disable_logging"], debug=config["debug"])
 
-        list_object = awesome_items.process_awesome_items(
-            items=items, 
-            categories=categories, 
-            config=config)
-        
         markdown = markdown_writer.MarkdownWriter()
-        markdown.write_output(list_object, labels, config)
-        #log.info("Mardown Output: \n" + md_out)
+        
+        if items:
+            list_object = awesome_items.process_awesome_items(
+                items=items, 
+                categories=categories, 
+                config=config)
+            
+            markdown.write_output(list_object, labels, config)
+        else:
+            log.application("No items found in the awesome list. Generating Default README.")
+            markdown.write_output(dict(), labels, config)
 
     except Exception as ex:
         log.application("Failed to generate markdown.", exc_info=ex)
