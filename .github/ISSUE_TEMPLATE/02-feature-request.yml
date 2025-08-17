@@ -1,7 +1,7 @@
 name: 🎁 Feature Request
 description: Do you have an idea or suggestion to make this even better?
 labels: 
-  - enhancement
+  - feature
 title: '[Feature]: '
 body:
   - type: markdown 

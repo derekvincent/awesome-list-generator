@@ -1,20 +1,15 @@
----
-config: 
-  output_file: tests/rally/output/README.md
-  list_title: Awesome Rally!
-  list_description: A curated list of Canadian Rally Resources, Clubs, Teams, and Events
-  markdown_header_file: tests/config/header.md
-  markdown_footer_file: tests/config/footer.md
-  log_folder: tests/rally/output/logs 
+config:
+  list_title: Awesome List!
+  markdown_header_file: "tests/config/header.md"
+  markdown_footer_file: "tests/config/footer.md"
+  up_arrow_image: "https://raw.githubusercontent.com/derekvincent/awesome-list-template/main/assets/up-arrow.png"
+  output_file: tests/big-empty/output/README.md
 
 labels:
   - label: "cars" 
     name: "CARS"
     image: "https://carsrally.ca/wp-content/themes/crcrally/favicon-32x32.png"
     description: "Canadian Associtation of Rally Sport"
-  - label: "canada"
-    name: "Canada"
-    emoji: 🇨🇦    
      
 categories:
   - name: canadian-rally
@@ -102,7 +97,7 @@ items:
   - link_id: https://carsrally.ca/cars-home/
     name: Canadian Association of Rallysport 
     category: sanctioning-bodies-canada 
-    labels: ['cars', 'canada']
+    labels: ['cars']
   - link_id: https://rallysport.on.ca/
     name: Rallysport Ontario
     category: sanctioning-bodies-canada 
@@ -143,105 +138,3 @@ items:
     link_id: https://www.oprc.online/
     description: Ontario Performance Rally Championship
     category: events-ontario-regional
-  - link_id: https://www.kwrc.on.ca/kw_events/gcfr-voyageurs-oprc/
-    name: Rally of the Voyageurs
-    category: events-ontario-regional
-  - link_id: https://www.mlrc.ca/blackbear/
-    name: Black Bear Rally
-    category: events-ontario-regional 
-## Quebec Regional Rallies 
-  - link_id: https://www.rallyecharlevoix.com/
-    name: Rallye de Charlevoix
-    category: events-quebec-regional 
-  - link_id: https://rallyedesanair.ca/
-    name: Rallye de Sanair
-    category: events-quebec-regional
-## Easrtern Canada Regional Rallies
-  - link_id: https://www.bluenoseautosport.ca/ledwidge-lookoff-rally/
-    name: Ledgwidge Lookoff Rally
-    category: events-eastern-regional
-  - link_id: https://www.bluenoseautosport.ca/trout-lake-rally/
-    name: Trout Lake Rally
-    category: events-eastern-regional
-## Ontario Rally Clubs
-  - link_id: https://www.mlrc.ca/
-    name: Maple Leaf Rally Club 
-    description: The Maple Leaf Rally Club is one of the largest, oldest, and most active rally clubs in Canada.
-    category: ontario-rally-clubs
-  - link_id: https://www.kwrc.on.ca/
-    name: Kitchener Waterloo Rally Club
-    category: ontario-rally-clubs
-  - link_id: https://ottawasportscarclub.ca/
-    name: Ottawa Sports Car Club
-    category: ontario-rally-clubs
-  - link_id: https://www.mco.org/wordpress/
-    name: Motorsport Club of Ottawa
-    category: ontario-rally-clubs
-    always_include: true
-  - link_id: https://www.pmsc.on.ca/
-    name: Peterborough Motor Sports Club
-    category: ontario-rally-clubs
-  - link_id: https://www.torontoautosportclub.ca/
-    name: Toronto Autosport Club
-    category: ontario-rally-clubs
-  - link_id: https://spda-online.ca/
-    name: Southern Ontario Performance Drivers Association
-    category: ontario-rally-clubs
-  - link_id: https://www.stlac.ca
-    name: St. Lawrence Automobile Club
-    category: ontario-rally-clubs
-## Quebec Rally Clubs    
-  - link_id: http://www.casll.qc.ca/
-    name: Club Auto Sport La Licorne
-    category: quebec-rally-clubs
-  - link_id: http://www.rallyebdc.com/
-    name: Club Rallye Auto de la Baie-des-Chaleurs (CRAB)
-    category: quebec-rally-clubs
-  - link_id: http://www.rallyeperceneige.com/
-    name: Club Rallye Perce-Neige Maniwaki
-    category: quebec-rally-clubs
-  - link_id: https://www.rallyecharlevoix.com/Le-club-CRDC
-    name: Club de Rallye Charlevoix
-    category: quebec-rally-clubs
-  - link_id: https://www.facebook.com/clubrallyerimouski
-    name: Club Rallye Rimouski
-    category: quebec-rally-clubs
-  - link_id: https://www.facebook.com/CADORallye/
-    name: Club Auto de Rallye de l'Outaouais (CARO)
-    category: quebec-rally-clubs
-## Eastern Canada Rally Clubs 
-  - link_id: https://www.bluenoseautosport.ca/
-    name: Bluenose Motorsport Club
-    category: eastern-rally-clubs
-  - link_id: https://mmsc.ca/
-    name: Moncton Motorsport Club
-    category: eastern-rally-clubs
-## West and Pacific Coast Canada Rally clubs
-  - link_id: https://www.cscc.ab.ca
-    name: Calgary Sports Car Club
-    category: western-rally-clubs
-  - link_id: https://www.edmontonrallyclub.ca/
-    name: Edmonton Rally Club
-    category: western-rally-clubs
-  - link_id: https://www.rallybc.ca/wcra/wcra.html
-    name: West Coast Rally Association
-    category: pacific-rally-clubs
-
-## Rally Teams
-  - link_id: https://www.rallysputnik.com/
-    name: Rally Sputnik
-    category: canadian-rally-teams
-
-## Resourced and Schools 
-  - link_id: https://racelab.co/
-    name: Race Lab - Ontario Rally School
-    category: rally-training
-  - link_id: https://teamoneil.com/
-    name: Team O'Neil Rally School
-    category: rally-training
-  - link_id: https://drive.dirtfish.com/drive/drive-now/
-    name: DirtFish Rally School
-    category: rally-training
-  - link_id: https://gorally.com/
-    name: The Firm - Rally School
-    category: rally-training

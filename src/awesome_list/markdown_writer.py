@@ -97,7 +97,9 @@ def generate_item_md(item: dict, labels: list, config: dict) -> str:
                     if "image" in label:
                         item_label_md += '<code><img src="{image}" alt="{name}" style="display:inline;" width="16" height="16"></code>'.format(
                         image=label["image"], name=label["name"])
-                    if "image" not in label and "name" in label:
+                    elif "emoji" in label:
+                        item_label_md += '<code>{emoji}</code>'.format(emoji=label["emoji"])
+                    elif "name" in label:
                         item_label_md += '<code>{name}</code>'.format(
                         name=label["name"])
 
@@ -140,13 +142,17 @@ def generate_legend_md(labels: list, config: dict) -> str:
 
     legend_md = "## Legend\n"
     for label in labels:
-        #label = labels[label_key]
+        image=""
         if "image" in label and "name" in label:
-            legend_md += '- <img src="{image}" style="display:inline;" width="13" height="13">&nbsp; <b>{name}</b> {description}\n'.format(
-                image=label["image"], 
-                name=label["name"],
-                description=" - " + label["description"] if "description" in label else ""
-            )
+            image = '<img src="{image}" style="display:inline;" width="13" height="13">'.format(image=label["image"])
+        elif "emoji" in label and "name" in label:  
+            image = label["emoji"]
+
+        legend_md += '- {image}&nbsp; <b>{name}</b> {description}\n'.format(
+            image=image, 
+            name=label["name"],
+            description=" - " + label["description"] if "description" in label else ""
+        )
 
     return legend_md
 
