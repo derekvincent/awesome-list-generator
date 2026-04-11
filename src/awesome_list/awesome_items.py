@@ -1,9 +1,10 @@
 import logging
-import requests
 import pprint
 from collections import OrderedDict
-# from typing import List, Tuple 
 
+import requests
+
+# from typing import List, Tuple 
 from bs4 import BeautifulSoup
 
 from awesome_list import utils
@@ -161,7 +162,8 @@ def process_awesome_items(
             item["hidden"] = False
 
         try:
-            update_item(item)
+            pass
+            #update_item(item)
         except Exception as err:
             item["hidden"] = True
             #log.error(f"Item: {item["link_id"]} return {err}")

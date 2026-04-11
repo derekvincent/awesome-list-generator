@@ -1,7 +1,7 @@
 import re
 import sys
 import os
-
+import markdown2
 
 
 
@@ -10,6 +10,17 @@ url_validator = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(), ]|(?:%
 def is_url_valid(url: str) -> bool:
     return re.match(url_validator, url) is not None
 
+def convert_markdown_to_html(markdown_file: str) -> str:
+    """Convert the markdown file to HTML using markdown2 library."""
+
+    if not os.path.exists(markdown_file):
+        raise FileNotFoundError(f"Markdown file not found: {markdown_file}")
+
+    with open(markdown_file, "r", encoding="utf-8") as md_file:
+        markdown_content = md_file.read()
+        html_content = markdown2.markdown(markdown_content, extras=["fenced-code-blocks", "tables", "strike", "cuddled-lists", "metadata"])
+        return html_content
+    
 def exit_process(code: int = 0) -> None:
     """Exit the process with exit code.
 

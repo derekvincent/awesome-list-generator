@@ -52,6 +52,21 @@ def initialize_configuration(cfg: dict) -> dict:
     if "markdown_footer_file" not in config:
         config["markdown_footer_file"] = "config/footer.md"
         
+    ## HTML Configuration
+    if "html_output_file" not in config:
+        config["html_output_file"] = "index.html"
+
+    if "html_theme" not in config:
+        config["html_theme"] = "light"
+    
+    if "html_enable" not in config: 
+        config["html_enable"] = False
+
+    #if "html_folder" not in config:
+    #    config["html_folder"] = "html"
+    
+    config.setdefault("html_folder", "html")
+    
     return config
 
 def initialize_categories(config: dict, categories: dict) -> OrderedDict:

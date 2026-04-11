@@ -23,6 +23,6 @@ def generate(path: str, debug: bool) -> None:
     """Generates an awsome-list markdown page from a yaml file."""
     from awesome_list import generator
 
-    generator.generate_markdown(path, debug)
+    generator.generate(path, debug)
 
 cli.add_command(generate)

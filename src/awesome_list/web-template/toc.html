@@ -1,0 +1,28 @@
+<div class="navbar navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="container">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    {% macro toc_item(item) %}
+        <li class="nav-item" data-bs-level="{{ item.depth }}">
+            <a href="#{{ item.name | replace(' ', '_') }}">{{ item.label }}</a> 
+            {%- if item.children|length > 0 %}
+                <ul class="nav flex-column">
+                {%- for child in item.children %}
+                    {{- toc_item(child) }}
+                {%- endfor %}
+                </ul>
+            {%- endif %}
+        </li>
+    {%- endmacro %}
+
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            {%- for item in toc %}
+                {{ toc_item(item) }}
+            {%- endfor %}
+        </ul>
+    </div>
+</div>
