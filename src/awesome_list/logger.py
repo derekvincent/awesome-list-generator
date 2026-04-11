@@ -12,6 +12,7 @@ def application(self, message, *args, **kwargs):
         self._log(logging.APPLICATION, message, args, **kwargs)
 
 def add_applicaiton_level():
+def add_application_level():
     ## Add a custom logging level for application-specific logs
     APPLICATION = 51
     logging.APPLICATION = APPLICATION
@@ -23,6 +24,7 @@ def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = 
 
     """Add the custom application logging level."""
     add_applicaiton_level()
+    add_application_level()
     ## Logging Configiration
     log_config = {
         "version": 1,
