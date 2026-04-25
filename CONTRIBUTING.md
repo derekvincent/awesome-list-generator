@@ -34,17 +34,6 @@ Commit messages should be as standardized as possible within the repository. A f
 5. Link to issues by mentioning them in commit messages.
 6. Examples: `Add image to documentation section 3`, `Fix memory leak. Closes #3`, `Split method X into two methods`. Refer to [this blog](https://chris.beams.io/posts/git-commit/) for more information about good commit messages.
 
-### Commit messages guidelines
-
-Commit messages should be as standardized as possible within the repository. A few best practices:
-
-1. Always use simple present (imperative mood) to describe what the commit does. Explain what & why, not how!
-2. Start with a capital letter.
-3. Don’t end the subject line with a period.
-4. Descriptive but short subject line (< 50 chars).
-5. Link to issues by mentioning them in commit messages.
-6. Examples: `Add image to documentation section 3`, `Fix memory leak. Closes #3`, `Split method X into two methods`. Refer to [this blog](https://chris.beams.io/posts/git-commit/) for more information about good commit messages.
-
 ### Opening a pull request
 
 1. **Set title**. The title should follow our [commit message guidelines](#commit-messages-guidelines) (example: `Fix memory leak in picture loader`). If the pull request closes a specific issue, the title can be used to mention the issue (example: `Fix memory leak in picture loader. Closes #3`). Prefix the title with `[WIP]` *(Work In Progress)* to indicate that you are not done but need clarification or an explicit review before you can continue your work item.
@@ -61,4 +50,4 @@ Commit messages should be as standardized as possible within the repository. A f
 
 
 ## Code of Conduct
-All members of the project community must abide by the [Contributor Covenant, version 2.0](https://github.com/derekvincent/awesome-list-generator/blob/main/CODE_IF_CONDUCT.md). Only by respecting each other we can develop a productive, collaborative community. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting a project maintainer.
+All members of the project community must abide by the Contributor Covenant, version 2.0. Only by respecting each other we can develop a productive, collaborative community. Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting a project maintainer.

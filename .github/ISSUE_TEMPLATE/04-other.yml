@@ -11,6 +11,6 @@ body:
         Before submitting an issue, please check to see if it has already been reported or addressed.
   - type: textarea
     attributes:
-      label: Quesiton or Issue Description
+      label: Question or Issue Description
       description: |
         Please provide a clear and concise description of the issue you are experiencing or the question you have.

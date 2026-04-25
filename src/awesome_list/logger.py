@@ -5,13 +5,11 @@ import pprint
 from datetime import datetime
 
 
-
-
 def application(self, message, *args, **kwargs):
     if self.isEnabledFor(logging.APPLICATION):
         self._log(logging.APPLICATION, message, args, **kwargs)
 
-def add_applicaiton_level():
+
 def add_application_level():
     ## Add a custom logging level for application-specific logs
     APPLICATION = 51
@@ -20,10 +18,10 @@ def add_application_level():
     logging.Logger.application = application
 
 
-def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = False) -> None:
-
+def initialize_logging(
+    file_path: str, disable_log: bool = False, debug: bool = False
+) -> None:
     """Add the custom application logging level."""
-    add_applicaiton_level()
     add_application_level()
     ## Logging Configiration
     log_config = {
@@ -51,7 +49,7 @@ def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = 
         },
     }
 
-    #log = logging.getLogger("awsome_list")
+    # log = logging.getLogger("awsome_list")
 
     if debug:
         """Set the logging level to DEBUG if debug is True."""
@@ -61,17 +59,16 @@ def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = 
         """Set the logging level to INFO if debug is False."""
         log_config["handlers"]["console"]["level"] = logging.INFO
         log_config["loggers"][""]["level"] = logging.INFO
-        
-    if not disable_log:
 
+    if not disable_log:
         """Initialize logging configuration."""
         if not os.path.exists(file_path):
             os.makedirs(file_path)
-    
+
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
         log_file = f"{file_path}/application-{timestamp}.log"
-        
-        application_handler =  {
+
+        application_handler = {
             "application": {
                 "class": "logging.FileHandler",
                 "level": logging.APPLICATION,
@@ -82,5 +79,5 @@ def initialize_logging(file_path: str, disable_log: bool = False, debug: bool = 
 
         log_config["handlers"].update(application_handler)
         log_config["loggers"][""]["handlers"].append("application")
-    
+
     logging.config.dictConfig(log_config)

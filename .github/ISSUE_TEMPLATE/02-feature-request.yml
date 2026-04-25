@@ -26,7 +26,7 @@ body:
         Provide any additional context or information that may help in understanding the feature request.
   - type: dropdown
     attributes:
-      label: Would you be interested on work on this feature
+      label: Would you be interested in working on this feature?
       options:
         - "Yes"
         - "No"
