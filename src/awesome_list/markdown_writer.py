@@ -227,7 +227,7 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
     markdown = ""
 
     markdown += "\n[header]: #\n"
-    # TODO: Markdown Header
+    # Markdown Header
     if "markdown_header_file" in config:
         if os.path.exists(config["markdown_header_file"]):
             with open(config["markdown_header_file"], "r") as f:
@@ -260,7 +260,7 @@ def generate_md(categories: OrderedDict, labels: list, config: dict) -> str:
         )
         markdown += "\n---\n"
 
-    # TODO: Markdown Footer
+    # Markdown Footer
     markdown += "\n[footer]: #\n"
     if "markdown_footer_file" in config:
         if os.path.exists(config["markdown_footer_file"]):

@@ -159,10 +159,10 @@ def generate_web(
     html_context["js_dir"] = "js"
 
     html_context["toc"] = categories_to_toc(categories, config, depth=1)
-    log.info(f"TOC: \n{pprint.pformat(html_context['toc'], indent=2)}")
+    log.debug(f"TOC: \n{pprint.pformat(html_context['toc'], indent=2)}")
     html_context["categories"] = categories_content_list(categories, config, depth=1)
     html_context["labels"] = labels
-    log.info(f"Content: \n{pprint.pformat(html_context['categories'], indent=2)}")
+    log.debug(f"Content: \n{pprint.pformat(html_context['categories'], indent=2)}")
     return html_context
 
 
