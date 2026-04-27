@@ -1,15 +1,36 @@
-<div class="navbar navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="container">
-        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
+<!-- Mobile Toggle Button -->
+<div class="d-md-none mb-3 d-flex gap-2">
+    <button class="btn btn-primary w-100 d-flex justify-content-between align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#toc-collapse" aria-expanded="false" aria-controls="toc-collapse">
+        <span><i class="fa-solid fa-list me-2"></i> Table of Contents</span>
+        <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <button class="btn btn-outline-secondary theme-toggle" type="button" title="Toggle Dark Mode">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+</div>
+
+<nav id="toc-collapse" class="collapse d-md-block card bg-body-tertiary border-0 shadow-sm p-3 rounded overflow-y-auto" style="max-height: calc(100vh - 4rem);">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="d-none d-md-block text-uppercase text-muted fs-6 fw-bold mb-0">Contents</h5>
+        <div class="d-flex gap-2">
+            <button id="hide-sidebar-btn" class="btn btn-sm btn-outline-secondary d-none d-md-block" type="button" title="Collapse Sidebar">
+                <i class="fa-solid fa-angles-left"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-secondary d-none d-md-block theme-toggle" type="button" title="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <input type="search" id="search-input" class="form-control form-control-sm" placeholder="Search resources...">
     </div>
 
     {% macro toc_item(item) %}
-        <li class="nav-item" data-bs-level="{{ item.depth }}">
-            <a href="#{{ item.name | replace(' ', '_') }}">{{ item.label }}</a> 
+        <li class="nav-item mb-1 w-100">
+            <a class="nav-link py-1 px-2" href="#{{ item.name | replace(' ', '_') }}">{{ item.label }}</a> 
             {%- if item.children|length > 0 %}
-                <ul class="nav flex-column">
+                <ul class="nav nav-pills flex-column ms-3 border-start ps-2 mt-1">
                 {%- for child in item.children %}
                     {{- toc_item(child) }}
                 {%- endfor %}
@@ -18,11 +39,9 @@
         </li>
     {%- endmacro %}
 
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
-        <ul class="nav flex-column">
-            {%- for item in toc %}
-                {{ toc_item(item) }}
-            {%- endfor %}
-        </ul>
-    </div>
-</div>
+    <ul id="toc-nav" class="nav nav-pills flex-column">
+        {%- for item in toc %}
+            {{ toc_item(item) }}
+        {%- endfor %}
+    </ul>
+</nav>

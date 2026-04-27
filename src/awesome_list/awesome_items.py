@@ -1,6 +1,8 @@
 import logging
+import os
 import pprint
 from collections import OrderedDict
+from urllib.parse import urlparse
 
 import requests
 
@@ -12,31 +14,74 @@ from awesome_list import utils
 log = logging.getLogger(__name__)
 
 
-def get_items_metadata(item: dict) -> dict:
+REQUEST_HEADERS = {
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "accept-language": "en-US,en;q=0.5",
+    "accept-encoding": "gzip, deflate, br",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "dnt": "1",
+    "upgrade-insecure-requests": "1",
+    "sec-ch-ua": '"Not_A Brand";v="99", "Google Chrome";v="137", "Chromium";v="137"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate",
+    "sec-fetch-site": "none",
+    "sec-fetch-user": "?1",
+    "sec-gpc": "1",
+}
+
+def get_github_metadata(link_id: str) -> dict | None:
+    """
+    Intercepts GitHub URLs and fetches extended metadata from the GitHub REST API.
+    """
+    parsed = urlparse(link_id)
+    if parsed.netloc != "github.com":
+        return None
+        
+    parts = parsed.path.strip("/").split("/")
+    if len(parts) < 2:
+        return None
+        
+    owner, repo = parts[0], parts[1]
+    api_url = f"https://api.github.com/repos/{owner}/{repo}"
+    headers = {"Accept": "application/vnd.github.v3+json"}
+    
+    if "GITHUB_TOKEN" in os.environ:
+        headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
+        
+    try:
+        response = requests.get(api_url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            return {
+                "og:title": data.get("name"),
+                "description": data.get("description"),
+                "stars": data.get("stargazers_count"),
+                "forks": data.get("forks_count"),
+                "license": data.get("license", {}).get("name") if data.get("license") else None,
+                "article:published_time": data.get("created_at"),
+                "og:update_time": data.get("pushed_at") or data.get("updated_at"),
+            }
+        else:
+            log.warning(f"GitHub API returned {response.status_code} for {link_id}")
+    except requests.exceptions.RequestException as e:
+        log.error(f"Error fetching GitHub API for {link_id}: {e}")
+        
+    return None
+
+
+def get_items_metadata(item: dict) -> dict | None:
 
     if utils.is_url_valid(item["link_id"]):
-        try:
-            request_headers = {
-                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                "accept-language": "en-US,en;q=0.5",
-                "accept-encoding": "gzip, deflate, br",
-                "cache-control": "no-cache",
-                "pragma": "no-cache",
-                "dnt": "1",
-                "upgrade-insecure-requests": "1",
-                "sec-ch-ua": '"Not_A Brand";v="99", "Google Chrome";v="137", "Chromium";v="137"',
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": '"Windows"',
-                "sec-fetch-dest": "document",
-                "sec-fetch-mode": "navigate",
-                "sec-fetch-site": "none",
-                "sec-fetch-user": "?1",
-                "sec-gpc": "1",
-            }
+        if github_data := get_github_metadata(item["link_id"]):
+            return github_data
 
+        try:
             response = requests.get(
-                item["link_id"], headers=request_headers, timeout=10
+                item["link_id"], headers=REQUEST_HEADERS, timeout=10
             )
 
             if response.status_code == 200:
@@ -67,6 +112,30 @@ def get_items_metadata(item: dict) -> dict:
     else:
         log.application(f"Invalid URL: {item['link_id']}")
     return None
+
+
+
+def check_link(url: str) -> tuple[bool, str]:
+    """
+    Fast check to see if a URL is alive without downloading the full page body.
+    """
+    if not utils.is_url_valid(url):
+        return False, "Invalid URL format"
+
+    try:
+        # Use GET with stream=True to avoid downloading the full body for speed
+        response = requests.get(url, headers=REQUEST_HEADERS, timeout=10, stream=True)
+        response.close()
+
+        if response.status_code < 400:
+            return True, f"HTTP {response.status_code}"
+        elif response.status_code in [401, 403, 405, 429]:
+            # Some sites block automated scripts but are technically alive and resolving
+            return True, f"HTTP {response.status_code} (Protected but reachable)"
+        else:
+            return False, f"HTTP {response.status_code}"
+    except requests.exceptions.RequestException as e:
+        return False, str(e)
 
 
 def update_category(item: dict, categories: OrderedDict, default_category: str) -> None:
@@ -115,6 +184,15 @@ def update_item(resource_item: dict) -> None:
             resource_item["published_at"] = published_time
         else:
             resource_item["published_at"] = ""
+            
+        if stars := metadata.get("stars"):
+            resource_item["stars"] = stars
+            
+        if forks := metadata.get("forks"):
+            resource_item["forks"] = forks
+            
+        if license_name := metadata.get("license"):
+            resource_item["license"] = license_name
 
     log.info(f"Updated item {resource_item['name']} with metadata.")
 

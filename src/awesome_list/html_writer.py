@@ -26,6 +26,7 @@ def categories_content_list(
         if "items" in category:
             items_count += len(category["items"])
         content_list[category_key] = category
+        content_list[category_key]["name"] = category_key
         content_list[category_key]["item_count"] = items_count
         content_list[category_key]["depth"] = cl_depth
 
@@ -47,7 +48,7 @@ def categories_to_toc(categories: OrderedDict, config: dict, depth: int = 1) -> 
             toc_children = categories_to_toc(categories, config, toc_depth + 1)
         toc.append(
             {
-                "name": config.get("list_title"),
+                "name": "top",
                 "label": config.get("list_title"),
                 "depth": toc_depth,
                 "item_count": 0,
@@ -132,7 +133,7 @@ def html_footer_to_html(config: dict) -> str:
 
 def generate_web(
     categories: OrderedDict, labels: list, config: dict, theme: str
-) -> str:
+) -> dict:
     """
     Generate the generate webpage content for the categorized items.
     """
@@ -155,10 +156,12 @@ def generate_web(
     html_context["footer"] = html_footer_to_html(config)
     html_context["theme"] = theme
     html_context["css_dir"] = "css"
+    html_context["js_dir"] = "js"
 
     html_context["toc"] = categories_to_toc(categories, config, depth=1)
     log.info(f"TOC: \n{pprint.pformat(html_context['toc'], indent=2)}")
     html_context["categories"] = categories_content_list(categories, config, depth=1)
+    html_context["labels"] = labels
     log.info(f"Content: \n{pprint.pformat(html_context['categories'], indent=2)}")
     return html_context
 
@@ -195,7 +198,9 @@ class HtmlWriter:
             )
         else:
             log.application("Generating Default Webpage.")
-            # markdown = generate_default_md(config=config)
+            awesomelist_web = generate_web(
+                categories=OrderedDict(), labels=labels, config=config, theme=theme
+            )
 
         ## Setup the out and templates to use
         ## TODO: Allow for custom templates
@@ -239,4 +244,22 @@ class HtmlWriter:
                     os.path.join(css_source_folder, css_file),
                     os.path.join(css_destination_folder, css_file),
                 )
+
+        """ Copy the JS files to the output folder """
+        js_source_folder = os.path.join(
+            os.path.dirname(__file__), "web-template", "js"
+        )
+        js_destination_folder = os.path.join(
+            os.path.dirname(config["output_file"]), config["html_folder"], "js"
+        )
+        os.makedirs(js_destination_folder, exist_ok=True)
+        if os.path.exists(js_source_folder):
+            for js_file in os.listdir(js_source_folder):
+                if js_file.endswith(".js"):
+                    copy_file(
+                        os.path.join(js_source_folder, js_file),
+                        os.path.join(js_destination_folder, js_file),
+                    )
+        else:
+            log.error(f"JavaScript template directory not found: {js_source_folder}")
         return

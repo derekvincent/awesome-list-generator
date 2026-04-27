@@ -10,12 +10,7 @@ body::before {
     z-index: -1;
 }
 
-body > .container {
-    margin-top: 20px;
-    margin-bottom: 400px;
-}
-
-.col-md-9 img {
+main img:not(.label-icon) {
     max-width: 100%;
     display: inline-block;
     padding: 4px;
@@ -26,126 +21,56 @@ body > .container {
     margin: 20px auto 30px auto;
 }
 
-h2 {
-    color: inherit;
-    font-weight: 400;
-    font-size: 3em;
-    border-bottom: 1px solid #ccc;
+/* Add bottom padding so the last few sections can scroll up to the trigger line */
+main {
+    padding-bottom: 65vh;
 }
 
-h3 {
-    color: inherit;
-    font-weight: 300;
-    font-size: 2em;
-    margin-left: 0.5em;
+/* Ensure anchor links scroll to a comfortable offset and ScrollSpy registers them accurately */
+main header,
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6 {
+    scroll-margin-top: 5rem;
 }
 
-h4, h5, h6 {
-    color: inherit;
-    font-weight: 200;
-    font-size: 2em;
-    margin-left: 1em;
+/* TOC Link Styling */
+#toc-nav .nav-link {
+    color: var(--bs-body-color);
+    border-radius: 0.25rem;
 }
 
-h2 + p {
-    font-size: 1.2em;
-    text-indent: .5em;
-    margin-top: -0.5em;
-    margin-bottom: .3em;
-    color: #666;
+#toc-nav .nav-link.active {
+    color: #fff !important;
+    background-color: var(--bs-primary) !important;
 }
 
-h3 + p {
-    font-size: 1.2em;
-    text-indent: .9em;
-    margin-top: -0.5em;
-    margin-bottom: .5em;
-    color: #666;
-}
-
-h4 + p, h5 + p, h6 + p {
-    font-size: 1.2em;
-    text-indent: 1.8em;
-    margin-top: -0.5em;
-    margin-bottom: .5em;
-    color: #666;
-}
-
-h4 ~ ul, h5 ~ ul, h6 ~ ul {
-    margin-top: -0.5em;
-    margin-left: 1.7em;
-}
-
-/* 
-* Side bar navigation 
-*/
-
-..bs-sidebar.affix {
-    position: -webkit-sticky;
-    position: sticky;
-    /* The nav header is 3.5rem high, plus 20px for the margin-top of the
-       main container. */
-    top: calc(3.5rem + 20px);
-}
-
-.bs-sidebar.card {
-    padding: 0;
-    max-height: 90%;
-    overflow-y: auto;
-}
-
-/* Toggle (vertically flip) sidebar collapse icon */
-.bs-sidebar .navbar-toggler span {
-    -moz-transform: scale(1, -1);
-    -webkit-transform: scale(1, -1);
-    -o-transform: scale(1, -1);
-    -ms-transform: scale(1, -1);
-    transform: scale(1, -1);
-}
-
-.bs-sidebar .navbar-toggler.collapsed span {
-    -moz-transform: scale(1, 1);
-    -webkit-transform: scale(1, 1);
-    -o-transform: scale(1, 1);
-    -ms-transform: scale(1, 1);
-    transform: scale(1, 1);
-}
-
-/* First level of nav */
-.bs-sidebar > .navbar-collapse > .nav {
-    padding-top:    10px;
-    padding-bottom: 10px;
-    border-radius: 5px;
-    width: 100%;
-}
-
-/* All levels of nav */
-.bs-sidebar .nav > li > a {
-    display: block;
-    padding: 5px 20px;
-    z-index: 1;
-}
-.bs-sidebar .nav > li > a:hover,
-.bs-sidebar .nav > li > a:focus {
-    text-decoration: none;
-    border-right: 1px solid;
-}
-.bs-sidebar .nav > li > a.active,
-.bs-sidebar .nav > li > a.active:hover,
-.bs-sidebar .nav > li > a.active:focus {
-    font-weight: bold;
-    background-color: transparent;
-    border-right: 1px solid;
-}
-
-.bs-sidebar .nav .nav .nav {
-    margin-left: 1em;
-}
-
-.bs-sidebar .nav > li > a {
+/* Remove heavy highlight from parent categories when a sub-category is active */
+#toc-nav .nav-link.active:has(+ ul .active) {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
     font-weight: bold;
 }
 
-.bs-sidebar .nav .nav > li > a {
-    font-weight: normal;
+/* Header Anchor Links */
+.header-anchor {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.category-header:hover .header-anchor {
+    opacity: 1;
+}
+
+/* Hide scrollbar for TOC but keep it scrollable */
+#toc-collapse::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
+#toc-collapse {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

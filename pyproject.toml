@@ -42,6 +42,9 @@ dev = [
 [tool.setuptools]
 package-dir = {"" = "src"}
 
+[tool.setuptools.package-data]
+awesome_list = ["web-template/*.html", "web-template/css/*.css", "web-template/js/*.js"]
+
 [tool.uv]
 package = true
 

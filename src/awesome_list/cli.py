@@ -27,4 +27,15 @@ def generate(path: str, debug: bool) -> None:
     generator.generate(path, debug)
 
 
+@click.command("lint")
+@click.argument("path", type=click.Path(exists=True))
+@click.option("--debug", is_flag=True)
+def lint(path: str, debug: bool) -> None:
+    """Lints an awesome-list yaml file for broken links."""
+    from awesome_list import generator
+
+    generator.lint(path, debug)
+
+
 cli.add_command(generate)
+cli.add_command(lint)

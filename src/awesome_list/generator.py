@@ -96,3 +96,40 @@ def generate(items_yaml_path: str, debug: bool) -> None:
         log.application("Failed to generate markdown.", exc_info=ex)
         log.error("Failed to generate markdown.", exc_info=ex)
         utils.exit_process(1)
+
+
+def lint(items_yaml_path: str, debug: bool) -> None:
+    try:
+        config, categories, items, labels = yaml_parser(
+            awesome_items_path=items_yaml_path
+        )
+        if debug:
+            config["debug"] = True
+
+        logger.initialize_logging(
+            file_path=config["log_folder"],
+            disable_log=config["disable_logging"],
+            debug=config["debug"],
+        )
+
+        log.info(f"Starting linter for {len(items)} items...")
+        broken_links = []
+
+        for item in items:
+            is_valid, msg = awesome_items.check_link(item["link_id"])
+            if not is_valid:
+                broken_links.append(item)
+                log.warning(f"❌ BROKEN: {item['name']} ({item['link_id']}) - {msg}")
+            else:
+                log.info(f"✅ OK: {item['name']} - {msg}")
+
+        if broken_links:
+            log.error(f"Linting failed! Found {len(broken_links)} broken links.")
+            utils.exit_process(1)
+        else:
+            log.info("Linting passed! All links are perfectly valid.")
+            utils.exit_process(0)
+
+    except Exception as ex:
+        log.error("Failed to execute linter.", exc_info=ex)
+        utils.exit_process(1)
