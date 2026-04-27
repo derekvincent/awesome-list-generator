@@ -4,6 +4,9 @@ config:
   list_title: Awesome SAP!
   markdown_header_file: tests/config/header.md
   markdown_footer_file: tests/config/footer.md
+  list_description: A curated list of SAP resources, tools, and communities for across the internet.
+  log_folder: tests/sap/output/logs 
+  html_enable: true
 
 labels:
   - label: "sap" 

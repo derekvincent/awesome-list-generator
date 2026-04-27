@@ -102,7 +102,7 @@ def generate_item_md(item: dict, labels: list, config: dict) -> str:
                 if label.get("label") == label_id:
                     if "image" in label:
                         item_label_md += '<code><img src="{image}" alt="{name}" style="display:inline;" width="16" height="16"></code>'.format(
-                            image=label["image"], name=label["name"]
+                            image=label["image"], name=label.get("name", label.get("label", ""))
                         )
                     elif "emoji" in label:
                         item_label_md += "<code>{emoji}</code>".format(
@@ -170,7 +170,8 @@ def generate_legend_md(labels: list, config: dict) -> str:
             image = label["emoji"]
             
         description = " - " + label["description"] if "description" in label else ""
-        legend_md += f"- {image}&nbsp; <b>{label['name']}</b> {description}\n"
+        name = label.get("name", label.get("label", ""))
+        legend_md += f"- {image}&nbsp; <b>{name}</b> {description}\n"
 
     return legend_md
 
