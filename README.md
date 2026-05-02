@@ -65,6 +65,7 @@ config:
   html_folder: output/web
   list_title: Awesome Example!
   markdown_header_file: config/header.md
+  feedback_api_url: "https://your-worker.your-account.workers.dev" # Optional Feedback API
 
 labels:
   - label: "github" 

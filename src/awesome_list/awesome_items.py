@@ -1,8 +1,10 @@
 import logging
 import os
 import pprint
+import xml.etree.ElementTree as ET
 from collections import OrderedDict
-from urllib.parse import urlparse
+from datetime import datetime
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -33,6 +35,48 @@ REQUEST_HEADERS = {
     "sec-gpc": "1",
 }
 
+def _parse_podcast_rss(rss_url: str) -> dict | None:
+    """Fetches and parses an RSS feed to get the latest episode data."""
+    log.info(f"Found RSS feed, attempting to parse: {rss_url}")
+    try:
+        response = requests.get(rss_url, headers=REQUEST_HEADERS, timeout=10)
+        if response.status_code != 200:
+            log.warning(f"Failed to fetch RSS feed {rss_url}, status: {response.status_code}")
+            return None
+
+        root = ET.fromstring(response.content)
+        latest_item = root.find(".//item")
+        if latest_item is None:
+            log.warning(f"No <item> tags found in RSS feed: {rss_url}")
+            return None
+
+        podcast_meta = {"media_type": "podcast"}
+
+        if (title_tag := latest_item.find("title")) is not None and title_tag.text:
+            podcast_meta["latest_episode_title"] = title_tag.text
+
+        if (pub_date_tag := latest_item.find("pubDate")) is not None and pub_date_tag.text:
+            pub_date_str = pub_date_tag.text
+            dt_object = None
+            # Common RSS date formats, handle timezone name like GMT
+            for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S %Z"):
+                try:
+                    if " GMT" in pub_date_str:
+                        pub_date_str = pub_date_str.replace(" GMT", " +0000")
+                    dt_object = datetime.strptime(pub_date_str, fmt)
+                    break
+                except ValueError:
+                    continue
+
+            if dt_object:
+                podcast_meta["latest_episode_date"] = dt_object.isoformat()
+            else:
+                podcast_meta["latest_episode_date"] = pub_date_str  # Fallback
+        return podcast_meta
+    except (requests.exceptions.RequestException, ET.ParseError) as e:
+        log.warning(f"Could not fetch or parse RSS feed at {rss_url}: {e}")
+        return None
+    
 def get_github_metadata(link_id: str) -> dict | None:
     """
     Intercepts GitHub URLs and fetches extended metadata from the GitHub REST API.
@@ -86,6 +130,7 @@ def get_items_metadata(item: dict) -> dict | None:
 
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, "html.parser")
+                # --- General Meta Tag Scraping ---
                 meta_tags = soup.find_all("meta")
                 metadata = {}
                 for tag in meta_tags:
@@ -94,9 +139,28 @@ def get_items_metadata(item: dict) -> dict | None:
                         content = tag.attrs.get("content", "")
                         metadata[name] = content
                     elif "property" in tag.attrs:
-                        property = tag.attrs["property"]
+                        property_val = tag.attrs["property"]
                         content = tag.attrs.get("content", "")
-                        metadata[property] = content
+                        metadata[property_val] = content
+                    elif "itemprop" in tag.attrs: # New: Capture itemprop attributes from meta tags
+                        itemprop_name = tag.attrs["itemprop"]
+                        content = tag.attrs.get("content", "")
+                        metadata[f"itemprop:{itemprop_name}"] = content
+
+                # --- Type Detection and Enrichment ---
+                parsed_url = urlparse(item["link_id"])
+
+                # 1. YouTube Detection
+                if "youtube.com" in parsed_url.netloc or "youtu.be" in parsed_url.netloc:
+                    metadata["media_type"] = "video.youtube"
+
+                # 2. Podcast Detection (via RSS feed)
+                rss_link_tag = soup.find("link", {"type": "application/rss+xml"})
+                if rss_link_tag and rss_link_tag.has_attr("href"):
+                    rss_url = urljoin(item["link_id"], rss_link_tag["href"])
+                    if podcast_data := _parse_podcast_rss(rss_url):
+                        # Merge podcast data, preferring podcast-specific keys
+                        metadata.update(podcast_data)
 
                 return metadata
 
@@ -110,7 +174,7 @@ def get_items_metadata(item: dict) -> dict | None:
             log.error(f"Error fetching {item['link_id']}: {e}")
             return None
     else:
-        log.application(f"Invalid URL: {item['link_id']}")
+        log.warning(f"Invalid URL: {item['link_id']}")
     return None
 
 
@@ -168,12 +232,14 @@ def update_item(resource_item: dict) -> None:
             f"Item Url: {resource_item['link_id']} \n Metadata: {pprint.pformat(metadata)}"
         )
         if title := metadata.get("og:title"):
-            resource_item["name"] = title
+            if not resource_item.get("name"):
+                resource_item["name"] = title
 
-        if description := metadata.get("description"):
-            resource_item["description"] = description
-        elif og_desc := metadata.get("og:description"):
-            resource_item["description"] = og_desc
+        if not resource_item.get("description"):
+            if description := metadata.get("description"):
+                resource_item["description"] = description
+            elif og_desc := metadata.get("og:description"):
+                resource_item["description"] = og_desc
 
         if update_time := metadata.get("og:update_time"):
             resource_item["update_at"] = update_time
@@ -194,7 +260,35 @@ def update_item(resource_item: dict) -> None:
         if license_name := metadata.get("license"):
             resource_item["license"] = license_name
 
-    log.info(f"Updated item {resource_item['name']} with metadata.")
+        # New: Extract media-specific metadata
+        if thumbnail_url := metadata.get("og:image"):
+            resource_item["thumbnail_url"] = thumbnail_url
+
+        if video_url := metadata.get("og:video:url") or metadata.get("og:video:secure_url"):
+            resource_item["video_embed_url"] = video_url
+
+        if audio_url := metadata.get("og:audio:url") or metadata.get("og:audio:secure_url"):
+            resource_item["audio_embed_url"] = audio_url
+
+        if media_type := metadata.get("media_type") or metadata.get("og:type") or metadata.get("itemprop:type"):
+            resource_item["media_type"] = media_type
+
+        # Duration can come from itemprop or specific OG tags
+        if duration := metadata.get("itemprop:duration") or metadata.get("og:video:duration") or metadata.get("og:audio:duration"):
+            resource_item["duration"] = duration
+
+        # View count is often an itemprop, but less reliably in meta tags.
+        # For now, we'll only capture if it's in a meta tag with itemprop.
+        if view_count := metadata.get("itemprop:interactionCount"):
+            resource_item["view_count"] = view_count
+
+        # New: Podcast-specific metadata
+        if latest_episode_title := metadata.get("latest_episode_title"):
+            resource_item["latest_episode_title"] = latest_episode_title
+        if latest_episode_date := metadata.get("latest_episode_date"):
+            resource_item["latest_episode_date"] = latest_episode_date
+
+    log.info(f"Updated item {resource_item.get('name', resource_item['link_id'])} with metadata.")
 
 
 def categorize_items(items: list, categories: OrderedDict) -> None:
@@ -234,6 +328,29 @@ def category_structure(awesome_list_obj: OrderedDict) -> None:
         del awesome_list_obj[category_key]
 
 
+def sort_categories_dict(categories: OrderedDict, sort_order: str) -> OrderedDict:
+    """
+    Recursively sorts the categories dictionary (and any subcategories) alphabetically.
+    """
+    if sort_order not in ["asc", "desc"]:
+        return categories
+
+    sorted_keys = sorted(
+        categories.keys(),
+        key=lambda k: str(categories[k].get("label", categories[k].get("name", k))).lower(),
+        reverse=(sort_order == "desc")
+    )
+
+    sorted_cats = OrderedDict()
+    for k in sorted_keys:
+        cat = categories[k]
+        if "subcategories" in cat and isinstance(cat["subcategories"], dict):
+            cat["subcategories"] = sort_categories_dict(cat["subcategories"], sort_order)
+        sorted_cats[k] = cat
+
+    return sorted_cats
+
+
 def process_awesome_items(
     items: list, categories: OrderedDict, config: dict
 ) -> OrderedDict:
@@ -271,4 +388,7 @@ def process_awesome_items(
     awesome_list_obj = categorize_items(processed_items, categories)
     category_structure(awesome_list_obj=awesome_list_obj)
 
-    return awesome_list_obj
+    sort_order = config.get("category_sort", "set")
+    sorted_awesome_list_obj = sort_categories_dict(awesome_list_obj, sort_order)
+
+    return sorted_awesome_list_obj

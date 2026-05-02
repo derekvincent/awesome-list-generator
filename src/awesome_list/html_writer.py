@@ -22,6 +22,9 @@ def categories_content_list(
 
     for category_key in categories:
         category = categories[category_key]
+        if category.get("hidden"):
+            continue
+
         items_count = 0
         if "items" in category:
             items_count += len(category["items"])
@@ -58,6 +61,9 @@ def categories_to_toc(categories: OrderedDict, config: dict, depth: int = 1) -> 
     else:
         for category_key in categories:
             category = categories[category_key]
+            if category.get("hidden"):
+                continue
+
             toc_children = []
             items_count = 0
             if "items" in category:
@@ -157,6 +163,7 @@ def generate_web(
     html_context["theme"] = theme
     html_context["css_dir"] = "css"
     html_context["js_dir"] = "js"
+    html_context["feedback_api_url"] = config.get("feedback_api_url", "")
 
     html_context["toc"] = categories_to_toc(categories, config, depth=1)
     log.debug(f"TOC: \n{pprint.pformat(html_context['toc'], indent=2)}")

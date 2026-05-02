@@ -55,6 +55,25 @@
                             <span class="badge bg-light text-dark border ms-1" title="License"><i class="fa-solid fa-scale-balanced"></i> {{ item.license }}</span>
                         {%- endif %}
                         {% if item.description %}<span class="text-body"> - {{ item.description }}</span>{% endif %}
+
+                        {# Display for YouTube #}
+                        {% if item.media_type == 'video.youtube' and item.published_at %}
+                            <div class="ms-4 mt-1 text-muted small">
+                                <i class="fa-brands fa-youtube text-danger me-1"></i> Published on {{ item.published_at.split('T')[0] }}
+                            </div>
+                        {% endif %}
+
+                        {# Display for Podcast #}
+                        {% if item.media_type == 'podcast' and item.latest_episode_date %}
+                            <div class="ms-4 mt-1 text-muted small">
+                                <i class="fa-solid fa-podcast text-info me-1"></i> 
+                                <strong>Latest:</strong> 
+                                {%- if item.latest_episode_title %}
+                                    {{ item.latest_episode_title }} &mdash;
+                                {%- endif %}
+                                {{ item.latest_episode_date.split('T')[0] }}
+                            </div>
+                        {% endif %}
                     </li>
                 {%- endfor %}           
             {%- endif %}
@@ -95,6 +114,46 @@
                 </main>
             </div>
         </div>
+
+    {%- if feedback_api_url %}
+    <!-- Floating Feedback Button -->
+    <button type="button" class="btn btn-success position-fixed bottom-0 end-0 m-4 rounded-circle shadow-lg d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; z-index: 1050;" data-bs-toggle="modal" data-bs-target="#feedbackModal" title="Submit Suggestion or Issue">
+        <i class="fa-solid fa-comment-dots fs-3"></i>
+    </button>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="feedbackForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="feedbackModalLabel">Submit an Issue / Suggestion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="feedbackTitle" class="form-label">Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="feedbackTitle" required placeholder="E.g., Add new tool: XYZ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Email (optional)</label>
+                            <input type="email" class="form-control" id="feedbackEmail" placeholder="To get notified about updates">
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="feedbackDescription" rows="4" required placeholder="Provide links or details..."></textarea>
+                        </div>
+                        <div id="feedbackAlert" class="alert d-none" role="alert"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="feedbackSubmitBtn">Submit Issue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {%- endif %}
 
     <footer class="text-center py-4 bg-body-tertiary mt-5">
         {{ footer }}
@@ -211,6 +270,46 @@
                         });
                     });
                 }
+
+                {%- if feedback_api_url %}
+                // 6. Feedback Form Submission
+                const feedbackForm = document.getElementById('feedbackForm');
+                if (feedbackForm) {
+                    feedbackForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const btn = document.getElementById('feedbackSubmitBtn');
+                        const alertBox = document.getElementById('feedbackAlert');
+                        
+                        const title = document.getElementById('feedbackTitle').value;
+                        const email = document.getElementById('feedbackEmail').value;
+                        const description = document.getElementById('feedbackDescription').value;
+
+                        btn.disabled = true;
+                        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...';
+                        alertBox.className = 'alert d-none';
+
+                        try {
+                            const res = await fetch("{{ feedback_api_url }}", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ title, email, description })
+                            });
+
+                            if (!res.ok) throw new Error("Submission failed");
+
+                            alertBox.textContent = "Thank you! Your issue was successfully submitted.";
+                            alertBox.className = 'alert alert-success mt-3';
+                            feedbackForm.reset();
+                        } catch (err) {
+                            alertBox.textContent = "Failed to submit. Please try again later or open a GitHub issue manually.";
+                            alertBox.className = 'alert alert-danger mt-3';
+                        } finally {
+                            btn.disabled = false;
+                            btn.textContent = 'Submit Issue';
+                        }
+                    });
+                }
+                {%- endif %}
             });
         </script>
     {%- endblock %}

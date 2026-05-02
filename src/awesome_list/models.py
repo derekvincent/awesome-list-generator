@@ -81,7 +81,7 @@ class AppConfig:
     html_output_file: str = "index.html"
     html_theme: str = "light"
     html_enable: bool = False
-    html_folder: str = "html"
+    html_folder: str = "docs"
 
     @classmethod
     def from_dict(cls, data: dict) -> "AppConfig":

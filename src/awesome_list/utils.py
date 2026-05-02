@@ -10,7 +10,9 @@ url_validator = re.compile(
 )
 
 
-def is_url_valid(url: str) -> bool:
+def is_url_valid(url: str | None) -> bool:
+    if not url:
+        return False
     return re.match(url_validator, url) is not None
 
 
